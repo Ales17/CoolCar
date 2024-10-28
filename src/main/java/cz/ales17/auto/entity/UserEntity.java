@@ -41,6 +41,6 @@ public class UserEntity extends AbstractEntity implements UserDetails {
         return username;
     }
 
-    @OneToMany
+    @OneToMany(mappedBy = "ownedBy")
     private List<Car> cars;
 }
