@@ -13,6 +13,12 @@ public class Car extends AbstractEntity {
 
     private String numberPlate;
 
+    private String vinCode;
+
+    private short year;
+    @ManyToOne
+    @JoinColumn(name = "brand_id")
+    private Brand brand;
     @ManyToOne
     @JoinColumn(name = "owner_id")
     private UserEntity ownedBy;
