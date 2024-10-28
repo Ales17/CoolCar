@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout.html}">
+<head>
+    <title>Create Car</title>
+</head>
+<body>
+<section layout:fragment="content">
+    <form action="/car/new" method="POST" th:object="${car}">
+        <label for="numberPlate">SPZ</label>
+        <input type="text" id="numberPlate" name="numberPlate">
+    </form>
+</section>
+</body>
+</html>
