@@ -8,13 +8,16 @@
 <body>
 <section layout:fragment="content">
          <div class="row gx-3">
-            <div class="col-12 col-md-6 mb-3" th:each="car:${cars}">
+            <div class="col-12 col-md-6 col-lg-4 mb-3" th:each="car:${cars}">
                 <div class="card h-100 ">
-                    <img src="..." class="card-img-top" alt="...">
+                    <img src="https://picsum.photos/800/600" class="card-img-top" alt="...">
                     <div class="card-body">
-                        <h5 class="card-title" th:text="${car.getBrand().getName()}">Card title</h5>
-                        <p th:text="'Id: '+${car.getId()}"></p>
-                        <p th:text="'Rok: '+${car.getYear()}"></p>
+                        <h5 class="card-title" th:text="${car.getLabel()}">Card title</h5>
+                        <p class="card-text">
+                            <i class="fa fa-car" title="Značka"></i>  <span th:text="${car.getBrand().getName()}"></span> <br>
+                            <i class="fa fa-calendar" title="Rok výroby"></i>  <span th:text="${car.getYear()}"></span> <br>
+                            <i class="fa fa-list-numeric" title="VIN kód"></i>  <span th:text="${car.getVinCode()}"></span> <br>
+                        </p>
                         <a th:href="@{/cars/{id}/inspections/new(id=${car.getId()})}" class="btn btn-primary">Nová prohlídka</a>
                         <a th:href="@{/cars/{id}(id=${car.getId()})}" class="btn btn-primary">Detail</a>
                         <button class="btn btn-danger delete-car-btn" th:data-id="${car.getId()}">Vymazat</button>
