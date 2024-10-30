@@ -1,22 +1,27 @@
 package cz.ales17.auto.service.impl;
 
+import cz.ales17.auto.dto.CarDto;
 import cz.ales17.auto.entity.Car;
 import cz.ales17.auto.entity.UserEntity;
+import cz.ales17.auto.mapper.CarMapper;
 import cz.ales17.auto.repository.CarRepository;
-import cz.ales17.auto.repository.UserRepository;
 import cz.ales17.auto.service.CarService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public class CarServiceImpl implements CarService {
-    @Autowired
-    private CarRepository carRepository;
+    private final CarRepository carRepository;
+
+    public CarServiceImpl(CarRepository carRepository) {
+        this.carRepository = carRepository;
+    }
+
 
     @Override
-    public void addCar(Car car) {
+    public void addCar(CarDto carDto) {
+        Car car = CarMapper.toEntity(carDto);
         carRepository.save(car);
     }
 

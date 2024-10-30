@@ -4,7 +4,7 @@ import cz.ales17.auto.dto.CarDto;
 import cz.ales17.auto.entity.Car;
 
 public class CarMapper {
-    public CarDto toDto(Car entity) {
+    public static CarDto toDto(Car entity) {
         return CarDto.builder()
                 .id(entity.getId())
                 .numberPlate(entity.getNumberPlate())
@@ -12,16 +12,20 @@ public class CarMapper {
                 .label(entity.getLabel())
                 .note(entity.getNote())
                 .year(entity.getYear())
+                .brand(entity.getBrand())
+                .ownedBy(entity.getOwnedBy())
                 .build();
     }
 
-    public Car toEntity(CarDto dto) {
+    public static Car toEntity(CarDto dto) {
         return Car.builder()
                 .numberPlate(dto.getNumberPlate())
                 .vinCode(dto.getVinCode())
                 .label(dto.getLabel())
                 .note(dto.getNote())
                 .year(dto.getYear())
+                .brand(dto.getBrand())
+                .ownedBy(dto.getOwnedBy())
                 .build();
     }
 }

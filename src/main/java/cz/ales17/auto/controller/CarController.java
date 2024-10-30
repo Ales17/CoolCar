@@ -1,5 +1,6 @@
 package cz.ales17.auto.controller;
 
+import cz.ales17.auto.dto.CarDto;
 import cz.ales17.auto.entity.Brand;
 import cz.ales17.auto.entity.Car;
 import cz.ales17.auto.entity.UserEntity;
@@ -54,7 +55,7 @@ public class CarController {
 
     @GetMapping("/cars/new")
     public String newCarForm(Model m) {
-        Car car = new Car();
+        CarDto car = new CarDto();
         m.addAttribute("car", car);
         List<Brand> brands = brandService.getBrands();
         m.addAttribute("brands", brands);
@@ -62,7 +63,7 @@ public class CarController {
     }
 
     @PostMapping("/cars/new")
-    public String newCar(@ModelAttribute("car") Car car, @RequestParam("brand-id") Long brandId) {
+    public String newCar(@ModelAttribute("car") CarDto car, @RequestParam("brand-id") Long brandId) {
         UserEntity ales = userRepository.findById(1L).get();
         car.setOwnedBy(ales);
         Brand brand = brandService.getBrand(brandId);
