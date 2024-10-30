@@ -15,6 +15,7 @@ public class VehicleInspectionMapper {
 
     public VehicleInspectionDto toDto(VehicleInspection entity) {
         return VehicleInspectionDto.builder()
+                .id(entity.getId())
                 .inspectionDate(entity.getInspectionDate())
                 .coolantLevel(entity.getCoolantLevel())
                 .coolantRefilled(entity.isCoolantRefilled())
