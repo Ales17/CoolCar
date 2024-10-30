@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout.html}">
+<head>
+    <title>Car Detail</title>
+</head>
+<body>
+<section layout:fragment="content">
+    <div>
+        <p><i class="fa fa-list-ol" title="Registrační značka (SPZ)"></i> <span th:text="${car.getNumberPlate()}"></span></p>
+        <p><i class="fa fa-gear" title="VIN kód"></i> <span th:text="${car.getVinCode()}"></span></p>
+
+        <a th:href="@{/cars/{carId}/inspections/new(carId=${car.getId()})}" class="btn btn-primary">Nová prohlídka</a>
+        <div th:if="${!car.getInspections().isEmpty()}">
+            Kontroly<br>
+
+            <div class="row g-3">
+                <div class="col-12 col-md-6 col-xl-3" th:each="inspection : ${inspections}">
+                    <div class="card" >
+                        <div class="card-body">
+                            <h5 th:text="${inspection.inspectionDate}" class="card-title">Card title</h5>
+                            <p class="card-text">
+                                <i class="fa fa-tint" title="Úroveň chladicí kapaliny"></i> <span
+                                    th:text="${inspection.getCoolantLevel().getDisplayName().toLowerCase()}"></span> <i
+                                    th:if="${inspection.isCoolantRefilled()}" class="fa fa-check-circle"
+                                    style="color: green;"
+                                    title="Kapalina byla doplněna"></i>
+                            </p>
+
+                            <a href="#" class="btn btn-primary">Upravit</a>
+                            <a href="#" class="btn btn-danger">Smazat</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+</body>
+</html>

@@ -6,9 +6,15 @@
 </head>
 <body>
 <section layout:fragment="content">
-    <form action="/car/new" method="POST" th:object="${car}">
+    <form th:action="@{/cars/new}" method="POST" th:object="${car}">
+        <label for="brand-id">Značka</label>
+        <select name="brand-id" id="brand-id">
+            <option th:each="brand:${brands}" th:text="${brand.getName()}" th:value="${brand.getId()}">
+            </option>
+        </select>
         <label for="numberPlate">SPZ</label>
         <input type="text" id="numberPlate" name="numberPlate">
+        <input type="submit">
     </form>
 </section>
 </body>

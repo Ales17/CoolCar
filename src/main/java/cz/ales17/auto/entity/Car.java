@@ -1,19 +1,25 @@
 package cz.ales17.auto.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import lombok.*;
+
+import java.util.List;
 
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@Getter
+@Setter
 public class Car extends AbstractEntity {
 
     private String numberPlate;
 
     private String vinCode;
+
+    private String label;
+
+    private String note;
 
     private short year;
     @ManyToOne
@@ -23,4 +29,6 @@ public class Car extends AbstractEntity {
     @JoinColumn(name = "owner_id")
     private UserEntity ownedBy;
 
+    @OneToMany(mappedBy = "vehicle", fetch = FetchType.LAZY, orphanRemoval = true)
+    private List<VehicleInspection> inspections;
 }

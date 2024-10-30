@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout.html}">
+<head>
+    <title>Create Car</title>
+</head>
+<body>
+<section layout:fragment="content">
+    <h1 th:text="'Nová prohlídka pro auto ' + ${car.getNumberPlate()}"></h1>
+    <form th:action="@{/cars/{carId}/inspections/new(carId=${car.getId})}" method="POST" th:object="${inspection}">
+        <label>Datum kontroly</label>
+        <input type="date" name="inspectionDate">
+        <label>Chladící kapalina</label>
+        <select name="coolantLevel">
+            <option th:each="level:${fluidLevels}" th:value="${level}" th:text="${level.getDisplayName()}"></option>
+        </select>
+        <label>Bylo doplněno?</label>
+        <input type="checkbox" name="coolantRefilled">
+        <input type="submit">
+    </form>
+</section>
+</body>
+</html>

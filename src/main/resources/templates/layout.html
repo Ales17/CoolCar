@@ -4,13 +4,51 @@
     <title layout:title-pattern="$LAYOUT_TITLE - $CONTENT_TITLE">Auto</title>
     <script src="common-script.js"></script>
     <link rel='stylesheet' href='/webjars/bootstrap/5.3.3/css/bootstrap.min.css'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 </head>
 <body>
 <header>
-    <h1>My website</h1>
+    <h1>Autodeník</h1>
+    <ul>
+        <li><a th:href="@{/cars}">Auta</a></li>
+        <li><a th:href="@{/cars/new}">Nové auto</a></li>
+        <li><a th:href="@{/logout}">Odhlásit se</a></li>
+    </ul>
 </header>
-<section layout:fragment="content">
+<section layout:fragment="content" class="container">
     <p>Page content goes here</p>
 </section>
+<script>
+    const deleteButtons = document.getElementsByClassName('delete-car-btn')
+
+    for (let i = 0; i < deleteButtons.length; i++) {
+        deleteButtons[i].addEventListener("click", function () {
+            const id = deleteButtons[i].getAttribute("data-id")
+            deleteCar(id)
+        })
+    }
+
+
+    async function deleteCar(element) {
+        var confirmDelete = confirm("Opravdu odstranit?");
+        if (confirmDelete) {
+
+            const url = `/cars/${element}`;
+            try {
+                const response = await fetch(url, {method: "DELETE"});
+                if (!response.ok) {
+                    throw new Error(`Response status: ${response.status}`);
+                }
+
+                console.log("AUTO S ID", element, "VYMAZANO")
+                window.location.reload()
+
+            } catch (error) {
+                console.error(error.message);
+            }
+        }
+
+    }
+</script>
 </body>
 </html>
