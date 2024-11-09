@@ -23,7 +23,7 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/login").permitAll()
+                        .requestMatchers("/login/**", "/webjars/**","robots.txt").permitAll()
                         .anyRequest().authenticated()//.permitAll()
                 )
                 .csrf(AbstractHttpConfigurer::disable)
