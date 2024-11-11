@@ -21,5 +21,5 @@ public class VehicleInspection extends AbstractEntity {
     @JoinColumn(name = "vehicle_id")
     private Car vehicle;
 
-
+    private String photoUrl;
 }

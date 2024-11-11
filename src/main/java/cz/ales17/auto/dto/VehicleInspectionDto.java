@@ -19,4 +19,5 @@ public class VehicleInspectionDto {
     private boolean coolantRefilled;
     @NotNull
     private Car vehicle;
+    private String photoUrl;
 }

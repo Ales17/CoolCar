@@ -10,6 +10,7 @@ public class VehicleInspectionMapper {
                 .coolantLevel(dto.getCoolantLevel())
                 .coolantRefilled(dto.isCoolantRefilled())
                 .vehicle(dto.getVehicle())
+                .photoUrl(dto.getPhotoUrl())
                 .build();
     }
 
@@ -20,6 +21,7 @@ public class VehicleInspectionMapper {
                 .coolantLevel(entity.getCoolantLevel())
                 .coolantRefilled(entity.isCoolantRefilled())
                 .vehicle(entity.getVehicle())
+                .photoUrl(entity.getPhotoUrl())
                 .build();
     }
 }
