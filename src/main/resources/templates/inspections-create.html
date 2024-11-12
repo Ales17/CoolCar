@@ -2,22 +2,37 @@
 <html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout.html}">
 <head>
-    <title>Create Car</title>
+    <title>Nová prohlídka</title>
 </head>
 <body>
 <section layout:fragment="content">
     <h1 th:text="'Nová prohlídka pro auto ' + ${car.getNumberPlate()}"></h1>
-    <form th:action="@{/cars/{carId}/inspections/new(carId=${car.getId})}" method="POST" th:object="${inspection}">
-        <label>Datum kontroly</label>
-        <input type="date" name="inspectionDate">
-        <label>Chladící kapalina</label>
-        <select name="coolantLevel">
-            <option th:each="level:${fluidLevels}" th:value="${level}" th:text="${level.getDisplayName()}"></option>
-        </select>
-        <label>Bylo doplněno?</label>
-        <input type="checkbox" name="coolantRefilled">
-        <input type="submit">
+    <form th:action="@{/cars/{carId}/inspections/new(carId=${car.getId})}" method="POST" enctype="multipart/form-data" th:object="${inspection}" class="container mt-4">
+
+        <div class="mb-3">
+            <label for="inspectionDate" class="form-label">Datum kontroly</label>
+            <input type="date" name="inspectionDate" id="inspectionDate" th:value="*{inspectionDate}" class="form-control">
+        </div>
+
+        <div class="mb-3">
+            <label for="coolantLevel" class="form-label">Chladící kapalina</label>
+            <select name="coolantLevel" id="coolantLevel" class="form-select">
+                <option th:each="level:${fluidLevels}" th:value="${level}" th:text="${level.getDisplayName()}" th:selected="${level}==*{coolantLevel}"></option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="photo" class="form-label">Foto</label>
+            <input type="file" name="photo" id="photo" class="form-control">
+        </div>
+
+        <div class="mb-3 form-check">
+            <input type="checkbox" name="coolantRefilled" id="coolantRefilled" th:value="*{coolantRefilled}" class="form-check-input">
+            <label for="coolantRefilled" class="form-check-label">Bylo doplněno?</label>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Odeslat</button>
     </form>
+
 </section>
 </body>
 </html>
