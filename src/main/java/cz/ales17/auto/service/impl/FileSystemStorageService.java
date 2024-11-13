@@ -23,6 +23,7 @@ import java.util.stream.Stream;
 
 import static cz.ales17.auto.storage.FileUtil.allowedFileTypes;
 import static cz.ales17.auto.storage.FileUtil.newFileName;
+import static cz.ales17.auto.storage.ImageResizer.resizeImage;
 import static org.apache.commons.io.FilenameUtils.getExtension;
 
 @Service
@@ -76,9 +77,12 @@ public class FileSystemStorageService implements StorageService {
                 String ex = String.format("The %s does not allow this content type.", extension);
                 throw new StorageException(ex);
             }
+
+
             // SAVING
             try (InputStream inputStream = file.getInputStream()) {
-                Files.copy(inputStream, destinationFile,
+                InputStream resizedImage = resizeImage(file.getInputStream());
+                Files.copy(resizedImage, destinationFile,
                         StandardCopyOption.REPLACE_EXISTING);
                 return newFileName;
             }
