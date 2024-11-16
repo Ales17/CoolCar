@@ -31,4 +31,6 @@ public class Car extends AbstractEntity {
 
     @OneToMany(mappedBy = "vehicle", fetch = FetchType.LAZY, orphanRemoval = true)
     private List<VehicleInspection> inspections;
+
+    private String photoUrl;
 }
