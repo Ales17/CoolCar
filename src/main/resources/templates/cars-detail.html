@@ -17,6 +17,7 @@
             <div class="row g-3">
                 <div class="col-12 col-md-6 col-xl-3" th:each="inspection : ${inspections}">
                     <div class="card" >
+                        <img th:if="${inspection.photoUrl != null}" class="card-img-top" th:src="${inspection.photoUrl}" alt="...">
                         <div class="card-body">
                             <h5 th:text="${inspection.inspectionDate}" class="card-title">Card title</h5>
                             <p class="card-text">
@@ -27,8 +28,8 @@
                                     title="Kapalina byla doplněna"></i>
                             </p>
 
-                            <a href="#" class="btn btn-primary">Upravit</a>
-                            <a href="#" class="btn btn-danger">Smazat</a>
+                            <!--<a href="#" class="btn btn-primary">Upravit</a>
+                            <a href="#" class="btn btn-danger">Smazat</a>-->
                         </div>
                     </div>
                 </div>
