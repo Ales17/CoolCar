@@ -1,24 +1,31 @@
 <!DOCTYPE html>
 <html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layout.html}">
+      layout:decorate="~{auth-layout.html}">
 <head>
     <title>Přihlášení</title>
 </head>
 <body>
 <section layout:fragment="content">
-    <div>
-        <h1 class="h1 text-center">Přihlášení</h1>
+    <div class="box p-2">
+        <h1 class="title is-2 has-text-centered	">Přihlášení</h1>
         <form th:action="@{/login}" method="POST" class="form-group p-1 p-lg-5">
-            <div class="mb-3">
-                <label for="username" class="form-label">Jméno</label>
-                <input type="text" id="username" name="username" class="form-control" required>
+            <div class="field">
+                <label class="label">Přihlašovací jméno</label>
+                <div class="control">
+                    <input type="text" name="username" class="input" autocomplete="username" required>
+                </div>
             </div>
-            <div class="mb-3">
-                <label for="password" class="form-label">Heslo</label>
-                <input type="password" id="password" name="password" class="form-control" required>
+            <div class="field">
+                <label class="label">Heslo</label>
+                <div class="control">
+                    <input type="password" name="password" class="input" autocomplete="current-password" required>
+                </div>
             </div>
-            <div class="form-group">
-                <button type="submit" class="btn btn-primary w-100">Přihlásit se</button>
+
+            <div class="field">
+                <div class="control">
+                    <button type="submit" class="button is-success">Přihlásit se</button>
+                </div>
             </div>
         </form>
 
