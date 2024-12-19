@@ -8,7 +8,9 @@ import cz.ales17.auto.entity.VehicleInspection;
 import cz.ales17.auto.repository.UserRepository;
 import cz.ales17.auto.service.BrandService;
 import cz.ales17.auto.service.CarService;
-import org.springframework.beans.factory.annotation.Autowired;
+import cz.ales17.auto.service.StorageService;
+import cz.ales17.auto.storage.FileUtil;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -18,17 +20,13 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
+@RequiredArgsConstructor
 public class CarController {
 
     private final BrandService brandService;
-
+    private final StorageService storageService;
     private final CarService carService;
-    @Autowired
-    UserRepository userRepository;
-    public CarController(BrandService brandService, CarService carService) {
-        this.brandService = brandService;
-        this.carService = carService;
-    }
+    private final UserRepository userRepository;
 
     @GetMapping("/")
     public String homepage() {
