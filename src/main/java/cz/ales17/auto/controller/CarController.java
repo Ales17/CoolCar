@@ -16,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -50,7 +51,6 @@ public class CarController {
     }
 
 
-
     @GetMapping("/cars/new")
     public String newCarForm(Model m) {
         CarDto car = new CarDto();
@@ -60,8 +60,21 @@ public class CarController {
         return "cars-create";
     }
 
-    @PostMapping(value="/cars/new", consumes = "multipart/form-data")
-    public String newCar(@ModelAttribute("car") CarDto car, @RequestParam("brand-id") Long brandId) {
+    @PostMapping(value = "/cars/new", consumes = "multipart/form-data")
+    public String newCar(Model m, @ModelAttribute("car") CarDto car, @RequestParam("brand-id") Long brandId, @RequestParam("photo") MultipartFile file) {
+
+        if (!file.isEmpty()) {
+            try {
+                String uploadedFilename = storageService.store(file);
+                car.setPhotoUrl(String.format("%s%s", FileUtil.ROOT_LOCATION, uploadedFilename));
+            } catch (Exception e) {
+                e.printStackTrace();
+                m.addAttribute("car", car);
+                m.addAttribute("message", "Chyba při nahrání souboru");
+                return "cars-create";
+            }
+        }
+
         UserEntity ales = userRepository.findById(1L).get();
         car.setOwnedBy(ales);
         Brand brand = brandService.getBrand(brandId);
