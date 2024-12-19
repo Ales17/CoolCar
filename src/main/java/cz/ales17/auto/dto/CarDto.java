@@ -35,4 +35,5 @@ public class CarDto {
 
     private List<VehicleInspectionDto> inspections;
 
+    private String photoUrl;
 }
