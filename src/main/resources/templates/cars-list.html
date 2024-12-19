@@ -22,10 +22,13 @@
                             <i class="fa fa-car" title="Značka"></i>  <span th:text="${car.getBrand().getName()}"></span> <br>
                             <i class="fa fa-calendar" title="Rok výroby"></i>  <span th:text="${car.getYear()}"></span> <br>
                             <i class="fa fa-list-numeric" title="VIN kód"></i>  <span th:text="${car.getVinCode()}"></span> <br>
+                            <i th:if="${car.getNote() != null}" class="fa fa-pencil" title="Poznámka"></i>  <span th:text="${car.getNote()}"></span>
                         </p>
-                        <a th:href="@{/cars/{id}/inspections/new(id=${car.getId()})}" class="btn btn-primary">Nová prohlídka</a>
+                        <div class="hstack gap-1">
                         <a th:href="@{/cars/{id}(id=${car.getId()})}" class="btn btn-primary">Detail</a>
                         <button class="btn btn-danger delete-car-btn" th:data-id="${car.getId()}">Vymazat</button>
+                        <a th:href="@{/cars/{id}/inspections/new(id=${car.getId()})}" class="ms-auto btn btn-primary">Nová prohlídka</a>
+                        </div>
                     </div>
                 </div>
             </div>
