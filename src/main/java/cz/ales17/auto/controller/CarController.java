@@ -62,7 +62,7 @@ public class CarController {
         return "cars-create";
     }
 
-    @PostMapping("/cars/new")
+    @PostMapping(value="/cars/new", consumes = "multipart/form-data")
     public String newCar(@ModelAttribute("car") CarDto car, @RequestParam("brand-id") Long brandId) {
         UserEntity ales = userRepository.findById(1L).get();
         car.setOwnedBy(ales);

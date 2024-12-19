@@ -6,7 +6,7 @@
 </head>
 <body>
 <section layout:fragment="content">
-    <form th:action="@{/cars/new}" method="POST" th:object="${car}" class="container mt-4">
+    <form th:action="@{/cars/new}" method="POST" enctype="multipart/form-data" th:object="${car}" class="container mt-4">
         <div class="mb-3">
             <label for="label" class="form-label">Název</label>
             <input type="text" id="label" name="label" class="form-control" required>
