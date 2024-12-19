@@ -14,6 +14,7 @@ public class CarMapper {
                 .year(entity.getYear())
                 .brand(entity.getBrand())
                 .ownedBy(entity.getOwnedBy())
+                .photoUrl(entity.getPhotoUrl())
                 .build();
     }
 
@@ -26,6 +27,7 @@ public class CarMapper {
                 .year(dto.getYear())
                 .brand(dto.getBrand())
                 .ownedBy(dto.getOwnedBy())
+                .photoUrl(dto.getPhotoUrl())
                 .build();
     }
 }
