@@ -7,6 +7,7 @@ import cz.ales17.auto.service.CarService;
 import cz.ales17.auto.service.StorageService;
 import cz.ales17.auto.service.VehicleInspectionService;
 import cz.ales17.auto.storage.FileUtil;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,15 +21,14 @@ import java.util.List;
 
 @RequestMapping("/cars/{carId}/inspections")
 @Controller
+@RequiredArgsConstructor
 public class InspectionController {
-
-    @Autowired
-    private StorageService storageService;
-    @Autowired
-    private CarService carService;
-
-    @Autowired
-    private VehicleInspectionService vehicleInspectionService;
+    
+    private final StorageService storageService;
+    
+    private final CarService carService;
+    
+    private final VehicleInspectionService vehicleInspectionService;
 
     @GetMapping("/new")
     public String newInspection(@PathVariable Long carId, Model m) {
