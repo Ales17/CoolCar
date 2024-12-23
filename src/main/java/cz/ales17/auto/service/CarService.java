@@ -7,7 +7,7 @@ import cz.ales17.auto.entity.UserEntity;
 import java.util.List;
 
 public interface CarService {
-    void addCar(CarDto carDto);
+    CarDto addCar(CarDto carDto);
     void updateCar(CarDto carDto);
     List<Car> getCarsByOwner(UserEntity user);
     List<Car> getCars();

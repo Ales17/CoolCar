@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+import static cz.ales17.auto.mapper.CarMapper.toDto;
 import static cz.ales17.auto.security.SecurityUtil.getSessionUsername;
 
 @Service
@@ -23,11 +24,12 @@ public class CarServiceImpl implements CarService {
 
 
     @Override
-    public void addCar(CarDto carDto) {
+    public CarDto addCar(CarDto carDto) {
         Car car = CarMapper.toEntity(carDto);
         UserEntity createdBy = userRepository.findByUsername(getSessionUsername());
         car.setOwnedBy(createdBy);
-        carRepository.save(car);
+        Car newCar = carRepository.save(car);
+        return toDto(newCar);
     }
 
     @Override
