@@ -26,6 +26,18 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
+    public void updateCar(CarDto carDto) {
+        Car car = getCarById(carDto.getId());
+        car.setNumberPlate(carDto.getNumberPlate());
+        car.setVinCode(carDto.getVinCode());
+        car.setLabel(carDto.getLabel());
+        car.setNote(carDto.getNote());
+        car.setYear(carDto.getYear());
+        car.setBrand(carDto.getBrand());
+        carRepository.save(car);
+    }
+
+    @Override
     public List<Car> getCarsByOwner(UserEntity user) {
         return carRepository.findAllByOwnedByIs(user);
     }
