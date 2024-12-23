@@ -18,7 +18,7 @@
         <div class="mb-3">
             <label for="brand-id" class="form-label">Značka</label>
             <select name="brand-id" id="brand-id" class="form-select">
-                <option th:each="brand:${brands}" th:text="${brand.getName()}" th:value="${brand.getId()}" th:selected="${brand.getId()}==*{brand.getId()}"></option>
+                <option th:each="brand:${brands}" th:text="${brand.getName()}" th:selected="*{brand != null} ? ${brand.getId()}==*{brand.getId()}" th:value="${brand.getId()}"></option>
             </select>
         </div>
 
