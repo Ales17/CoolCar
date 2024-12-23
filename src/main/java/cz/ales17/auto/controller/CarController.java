@@ -23,7 +23,6 @@ import java.util.List;
 @Controller
 @RequiredArgsConstructor
 public class CarController {
-
     private final BrandService brandService;
     private final StorageService storageService;
     private final CarService carService;
@@ -114,15 +113,11 @@ public class CarController {
         car.setBrand(brand);
 
         if (car.getId() == null) {
-            UserEntity ales = userRepository.findById(1L).get();
-            car.setOwnedBy(ales);
-
             carService.addCar(car);
             return "redirect:/cars";
         } else {
-
             carService.updateCar(car);
-            return "redirect:/cars";
+            return "redirect:/cars/"+car.getId();
         }
     }
 
