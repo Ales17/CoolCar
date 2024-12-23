@@ -23,7 +23,6 @@ import java.util.List;
 @Controller
 @RequiredArgsConstructor
 public class CarController {
-
     private final BrandService brandService;
     private final StorageService storageService;
     private final CarService carService;
@@ -81,6 +80,45 @@ public class CarController {
         car.setBrand(brand);
         carService.addCar(car);
         return "redirect:/cars";
+    }
+
+
+    @GetMapping("/cars/{carId}/edit")
+    public String editCarForm(@PathVariable("carId") Long carId, Model m) {
+        Car c = carService.getCarById(carId);
+        m.addAttribute("car", c);
+        List<Brand> brands = brandService.getBrands();
+        m.addAttribute("brands", brands);
+        return "cars-create";
+    }
+
+
+    @PostMapping(value = "/cars", consumes = "multipart/form-data")
+    public String saveCar(Model m, @ModelAttribute("car") CarDto car, @RequestParam("brand-id") Long brandId, @RequestParam("photo") MultipartFile file) {
+
+        if (!file.isEmpty()) {
+            try {
+                String uploadedFilename = storageService.store(file);
+                String photoUrl = String.format("%s%s", FileUtil.ROOT_LOCATION, uploadedFilename);
+                car.setPhotoUrl(photoUrl);
+            } catch (Exception e) {
+                e.printStackTrace();
+                m.addAttribute("car", car);
+                m.addAttribute("message", "Chyba při nahrání souboru");
+                return "cars-create";
+            }
+        }
+
+        Brand brand = brandService.getBrand(brandId);
+        car.setBrand(brand);
+
+        if (car.getId() == null) {
+            CarDto newCar = carService.addCar(car);
+            return "redirect:/cars/" + newCar.getId();
+        } else {
+            carService.updateCar(car);
+            return "redirect:/cars/" + car.getId();
+        }
     }
 
     @DeleteMapping("/cars/{carId}")

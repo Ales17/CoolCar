@@ -1,42 +1,45 @@
 <!DOCTYPE html>
-<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.w3.org/1999/xhtml"
       layout:decorate="~{layout.html}">
 <head>
     <title>Přidat automobil</title>
 </head>
 <body>
 <section layout:fragment="content">
-    <form th:action="@{/cars/new}" method="POST" enctype="multipart/form-data" th:object="${car}" class="container mt-4">
+    <form th:action="@{/cars}" method="POST" enctype="multipart/form-data" th:object="${car}" class="container mt-4">
+
+        <input type="hidden" name="id" th:value="*{id}">
+
         <div class="mb-3">
             <label for="label" class="form-label">Název</label>
-            <input type="text" id="label" name="label" class="form-control" required>
+            <input th:value="*{label}" type="text" id="label" name="label" class="form-control" required>
         </div>
 
         <div class="mb-3">
             <label for="brand-id" class="form-label">Značka</label>
             <select name="brand-id" id="brand-id" class="form-select">
-                <option th:each="brand:${brands}" th:text="${brand.getName()}" th:value="${brand.getId()}"></option>
+                <option th:each="brand:${brands}" th:text="${brand.getName()}" th:selected="*{brand != null} ? ${brand.getId()}==*{brand.getId()}" th:value="${brand.getId()}"></option>
             </select>
         </div>
 
         <div class="mb-3">
             <label for="numberPlate" class="form-label">SPZ</label>
-            <input type="text" id="numberPlate" name="numberPlate" class="form-control" required>
+            <input th:value="*{numberPlate}" type="text" id="numberPlate" name="numberPlate" class="form-control" required>
         </div>
 
         <div class="mb-3">
             <label for="vinCode" class="form-label">VIN</label>
-            <input type="text" id="vinCode" name="vinCode" class="form-control" minlength="17" maxlength="17" required>
+            <input th:value="*{vinCode}" type="text" id="vinCode" name="vinCode" class="form-control" minlength="17" maxlength="17" required>
         </div>
 
         <div class="mb-3">
             <label for="year" class="form-label">Rok výroby</label>
-            <input type="number" id="year" name="year" class="form-control" min="1900" max="2100" step="1" required>
+            <input th:value="*{year}" type="number" id="year" name="year" class="form-control" min="1900" max="2100" step="1" required>
         </div>
 
         <div class="mb-3">
             <label for="note" class="form-label">Poznámka</label>
-            <input type="text" id="note" name="note" class="form-control">
+            <input th:value="*{note}" type="text" id="note" name="note" class="form-control">
         </div>
 
         <div class="mb-3">
