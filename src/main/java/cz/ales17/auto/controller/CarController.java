@@ -113,11 +113,11 @@ public class CarController {
         car.setBrand(brand);
 
         if (car.getId() == null) {
-            carService.addCar(car);
-            return "redirect:/cars";
+            CarDto newCar = carService.addCar(car);
+            return "redirect:/cars/" + newCar.getId();
         } else {
             carService.updateCar(car);
-            return "redirect:/cars/"+car.getId();
+            return "redirect:/cars/" + car.getId();
         }
     }
 
