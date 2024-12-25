@@ -8,9 +8,9 @@ import cz.ales17.auto.service.StorageService;
 import cz.ales17.auto.service.VehicleInspectionService;
 import cz.ales17.auto.storage.FileUtil;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -23,13 +23,14 @@ import java.util.List;
 @Controller
 @RequiredArgsConstructor
 public class InspectionController {
-    
+
     private final StorageService storageService;
-    
+
     private final CarService carService;
-    
+
     private final VehicleInspectionService vehicleInspectionService;
 
+    @PreAuthorize("@authorizationService.isCarOwner(#carId)")
     @GetMapping("/new")
     public String newInspection(@PathVariable Long carId, Model m) {
         Car car = carService.getCarById(carId);
@@ -42,8 +43,8 @@ public class InspectionController {
         return "inspections-create";
     }
 
-
-    @PostMapping(value="/new", consumes = "multipart/form-data")
+    @PreAuthorize("@authorizationService.isCarOwner(#carId)")
+    @PostMapping(value = "/new", consumes = "multipart/form-data")
     public String createNewInspection(@PathVariable Long carId, Model m, @ModelAttribute("inspection") VehicleInspection inspection, @RequestParam("photo") MultipartFile file) {
 
         if (!file.isEmpty()) {
@@ -65,11 +66,12 @@ public class InspectionController {
         Car car = carService.getCarById(carId);
         inspection.setVehicle(car);
         vehicleInspectionService.addInspection(inspection);
-        return "redirect:/cars/"+carId;
+        return "redirect:/cars/" + carId;
     }
 
+    @PreAuthorize("@authorizationService.isCarOwner(#carId)")
     @DeleteMapping("/{inspectionId}")
-    public ResponseEntity<String> deleteInspection(@PathVariable("inspectionId") Long inspectionId) {
+    public ResponseEntity<String> deleteInspection(@PathVariable Long carId, @PathVariable("inspectionId") Long inspectionId) {
         vehicleInspectionService.deleteInspectionById(inspectionId);
         return new ResponseEntity<>("OK", HttpStatus.OK);
     }
