@@ -13,8 +13,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class SecurityUtil {
 
-    private final UserDetailsService userDetailsService;
-    private final UserRepository userRepository;
     public static String getSessionUsername() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (!(authentication instanceof AnonymousAuthenticationToken)) {
