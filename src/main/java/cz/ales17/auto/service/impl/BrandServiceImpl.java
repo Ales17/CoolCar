@@ -3,19 +3,20 @@ package cz.ales17.auto.service.impl;
 import cz.ales17.auto.entity.Brand;
 import cz.ales17.auto.repository.BrandRepository;
 import cz.ales17.auto.service.BrandService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class BrandServiceImpl implements BrandService {
-    @Autowired
-    private BrandRepository brandRepository;
+    private final BrandRepository brandRepository;
 
     @Override
     public List<Brand> getBrands() {
-        return brandRepository.findAll();
+        return brandRepository.findAll(Sort.by(Sort.Direction.ASC, "name"));
     }
 
     @Override
