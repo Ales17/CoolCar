@@ -12,9 +12,9 @@
 
         <div class="mb-3">
             <label for="label" class="form-label">Název</label>
-            <input th:value="*{label}" type="text" id="label" name="label" class="form-control" required>
+            <input class="form-control" th:value="*{label}" type="text" id="label" name="label" required>
+            <div class="invalid-feedback d-block d-block" th:if="${#fields.hasErrors('label')}" th:errors="*{label}"></div>
         </div>
-
         <div class="mb-3">
             <label for="brand-id" class="form-label">Značka</label>
             <select name="brand-id" id="brand-id" class="form-select">
@@ -25,21 +25,25 @@
         <div class="mb-3">
             <label for="numberPlate" class="form-label">SPZ</label>
             <input th:value="*{numberPlate}" type="text" id="numberPlate" name="numberPlate" class="form-control" required>
+            <div class="invalid-feedback d-block" th:if="${#fields.hasErrors('numberPlate')}" th:errors="*{numberPlate}"></div>
         </div>
 
         <div class="mb-3">
             <label for="vinCode" class="form-label">VIN</label>
             <input th:value="*{vinCode}" type="text" id="vinCode" name="vinCode" class="form-control" minlength="17" maxlength="17" required>
+            <div class="invalid-feedback d-block" th:if="${#fields.hasErrors('vinCode')}" th:errors="*{vinCode}"></div>
         </div>
 
         <div class="mb-3">
             <label for="year" class="form-label">Rok výroby</label>
             <input th:value="*{year}" type="number" id="year" name="year" class="form-control" min="1900" max="2100" step="1" required>
+            <div class="invalid-feedback d-block" th:if="${#fields.hasErrors('year')}" th:errors="*{year}"></div>
         </div>
 
         <div class="mb-3">
             <label for="note" class="form-label">Poznámka</label>
             <input th:value="*{note}" type="text" id="note" name="note" class="form-control">
+            <div class="invalid-feedback d-block" th:if="${#fields.hasErrors('note')}" th:errors="*{note}"></div>
         </div>
 
         <div class="mb-3">
