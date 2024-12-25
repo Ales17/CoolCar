@@ -13,6 +13,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -37,11 +38,12 @@ public class CarController {
 
     @GetMapping("/cars")
     public String listCars(Model m) {
-        List<Car> cars = carService.getCars();
+        List<Car> cars = carService.getCarsByCurrentUser();
         m.addAttribute("cars", cars);
         return "cars-list";
     }
 
+    @PreAuthorize("@authorizationService.isCarOwner(#carId)")
     @GetMapping("/cars/{carId}")
     public String carDetail(@PathVariable("carId") Long carId, Model m) {
         Car car = carService.getCarById(carId);
@@ -60,6 +62,7 @@ public class CarController {
         return "cars-create";
     }
 
+    @PreAuthorize("@authorizationService.isCarOwner(#carId)")
     @GetMapping("/cars/{carId}/edit")
     public String editCarForm(@PathVariable("carId") Long carId, Model m) {
         Car car = carService.getCarById(carId);
@@ -69,11 +72,11 @@ public class CarController {
         return "cars-create";
     }
 
-
+    @PreAuthorize("@authorizationService.canSaveCar(#car.getId())")
     @PostMapping(value = "/cars", consumes = "multipart/form-data")
     public String saveCar(@RequestParam("brand-id") Optional<Long> brandId, @RequestParam("photo") MultipartFile file, @Valid @ModelAttribute("car") CarDto car, BindingResult result, Model m) {
 
-        if (result.hasErrors() || brandId.isEmpty())  {
+        if (result.hasErrors() || brandId.isEmpty()) {
             m.addAttribute("car", car);
             List<Brand> brands = brandService.getBrands();
             m.addAttribute("brands", brands);
@@ -104,7 +107,7 @@ public class CarController {
             return "redirect:/cars/" + car.getId();
         }
     }
-
+    @PreAuthorize("@authorizationService.isCarOwner(#carId)")
     @DeleteMapping("/cars/{carId}")
     public ResponseEntity<String> deleteCar(@PathVariable("carId") Long carId) {
         carService.deleteCarById(carId);
