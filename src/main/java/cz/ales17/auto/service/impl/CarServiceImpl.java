@@ -55,6 +55,12 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
+    public List<Car> getCarsByCurrentUser() {
+        UserEntity currentUser = userRepository.findByUsername(getSessionUsername());
+        return getCarsByOwner(currentUser);
+    }
+
+    @Override
     public Car getCarById(Long id) {
         return carRepository.findById(id).get();
     }
