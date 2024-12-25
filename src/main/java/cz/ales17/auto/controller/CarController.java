@@ -3,22 +3,24 @@ package cz.ales17.auto.controller;
 import cz.ales17.auto.dto.CarDto;
 import cz.ales17.auto.entity.Brand;
 import cz.ales17.auto.entity.Car;
-import cz.ales17.auto.entity.UserEntity;
 import cz.ales17.auto.entity.VehicleInspection;
 import cz.ales17.auto.repository.UserRepository;
 import cz.ales17.auto.service.BrandService;
 import cz.ales17.auto.service.CarService;
 import cz.ales17.auto.service.StorageService;
 import cz.ales17.auto.storage.FileUtil;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor
@@ -52,41 +54,16 @@ public class CarController {
 
     @GetMapping("/cars/new")
     public String newCarForm(Model m) {
-        CarDto car = new CarDto();
-        m.addAttribute("car", car);
+        m.addAttribute("car", new CarDto());
         List<Brand> brands = brandService.getBrands();
         m.addAttribute("brands", brands);
         return "cars-create";
     }
 
-    @PostMapping(value = "/cars/new", consumes = "multipart/form-data")
-    public String newCar(Model m, @ModelAttribute("car") CarDto car, @RequestParam("brand-id") Long brandId, @RequestParam("photo") MultipartFile file) {
-
-        if (!file.isEmpty()) {
-            try {
-                String uploadedFilename = storageService.store(file);
-                car.setPhotoUrl(String.format("%s%s", FileUtil.ROOT_LOCATION, uploadedFilename));
-            } catch (Exception e) {
-                e.printStackTrace();
-                m.addAttribute("car", car);
-                m.addAttribute("message", "Chyba při nahrání souboru");
-                return "cars-create";
-            }
-        }
-
-        UserEntity ales = userRepository.findById(1L).get();
-        car.setOwnedBy(ales);
-        Brand brand = brandService.getBrand(brandId);
-        car.setBrand(brand);
-        carService.addCar(car);
-        return "redirect:/cars";
-    }
-
-
     @GetMapping("/cars/{carId}/edit")
     public String editCarForm(@PathVariable("carId") Long carId, Model m) {
-        Car c = carService.getCarById(carId);
-        m.addAttribute("car", c);
+        Car car = carService.getCarById(carId);
+        m.addAttribute("car", car);
         List<Brand> brands = brandService.getBrands();
         m.addAttribute("brands", brands);
         return "cars-create";
@@ -94,7 +71,14 @@ public class CarController {
 
 
     @PostMapping(value = "/cars", consumes = "multipart/form-data")
-    public String saveCar(Model m, @ModelAttribute("car") CarDto car, @RequestParam("brand-id") Long brandId, @RequestParam("photo") MultipartFile file) {
+    public String saveCar(@RequestParam("brand-id") Optional<Long> brandId, @RequestParam("photo") MultipartFile file, @Valid @ModelAttribute("car") CarDto car, BindingResult result, Model m) {
+
+        if (result.hasErrors() || brandId.isEmpty())  {
+            m.addAttribute("car", car);
+            List<Brand> brands = brandService.getBrands();
+            m.addAttribute("brands", brands);
+            return "cars-create";
+        }
 
         if (!file.isEmpty()) {
             try {
@@ -109,7 +93,7 @@ public class CarController {
             }
         }
 
-        Brand brand = brandService.getBrand(brandId);
+        Brand brand = brandService.getBrand(brandId.get());
         car.setBrand(brand);
 
         if (car.getId() == null) {
