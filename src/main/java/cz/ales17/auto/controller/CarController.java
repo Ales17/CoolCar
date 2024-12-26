@@ -59,6 +59,7 @@ public class CarController {
         m.addAttribute("car", new CarDto());
         List<Brand> brands = brandService.getBrands();
         m.addAttribute("brands", brands);
+        m.addAttribute("title", "Nové auto");
         return "cars-create";
     }
 
@@ -69,10 +70,11 @@ public class CarController {
         m.addAttribute("car", car);
         List<Brand> brands = brandService.getBrands();
         m.addAttribute("brands", brands);
+        m.addAttribute("title", "Upravit auto");
         return "cars-create";
     }
 
-    @PreAuthorize("@authorizationService.canSaveCar(#car.getId())")
+    @PreAuthorize("@authorizationService.acanSaveCar(#car.getId())")
     @PostMapping(value = "/cars", consumes = "multipart/form-data")
     public String saveCar(@RequestParam("brand-id") Optional<Long> brandId, @RequestParam("photo") MultipartFile file, @Valid @ModelAttribute("car") CarDto car, BindingResult result, Model m) {
 
