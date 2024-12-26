@@ -6,7 +6,6 @@
 </head>
 <body>
 <section layout:fragment="content">
-    <h1 th:text="'Nová prohlídka pro auto ' + ${car.getNumberPlate()}"></h1>
     <form th:action="@{/cars/{carId}/inspections/new(carId=${car.getId})}" method="POST" enctype="multipart/form-data" th:object="${inspection}" class="container mt-4">
 
         <div class="mb-3">
