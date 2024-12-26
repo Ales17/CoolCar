@@ -23,7 +23,7 @@
                     <img th:if="${inspection.photoUrl != null}" class="card-img-top" th:src="${inspection.photoUrl}"
                          alt="...">
                     <div class="card-body">
-                        <h5 th:text="${inspection.inspectionDate}" class="card-title">Card title</h5>
+                        <h5 th:text="${#temporals.format(inspection.inspectionDate, 'dd. MM. yyyy')}" class="card-title">Card title</h5>
                         <p class="card-text">
                             <i class="fa fa-tint" title="Úroveň chladicí kapaliny"></i> <span
                                 th:text="${inspection.getCoolantLevel().getDisplayName().toLowerCase()}"></span> <i
