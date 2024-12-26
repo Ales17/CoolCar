@@ -38,6 +38,7 @@ public class CarController {
     public String listCars(Model m) {
         List<Car> cars = carService.getCarsByCurrentUser();
         m.addAttribute("cars", cars);
+        m.addAttribute("title", "Moje auta");
         return "cars-list";
     }
 
@@ -48,6 +49,7 @@ public class CarController {
         m.addAttribute("car", car);
         List<VehicleInspection> inspections = car.getInspections();
         m.addAttribute("inspections", inspections);
+        m.addAttribute("title","Detail auta");
         return "cars-detail";
     }
 
