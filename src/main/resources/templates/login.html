@@ -6,30 +6,21 @@
 </head>
 <body>
 <section layout:fragment="content">
-    <div class="box p-2">
-        <h1 class="title is-2 has-text-centered	">Přihlášení</h1>
-        <form th:action="@{/login}" method="POST" class="form-group p-1 p-lg-5">
-            <div class="field">
-                <label class="label">Přihlašovací jméno</label>
-                <div class="control">
-                    <input type="text" name="username" class="input" autocomplete="username" required>
-                </div>
+        <form th:action="@{/login}" method="POST" class="">
+            <div class="mb-3">
+                <label for="username" class="form-label">Přihlašovací jméno</label>
+                <input type="text" name="username" id="username" class="form-control" autocomplete="username" autofocus required>
             </div>
-            <div class="field">
-                <label class="label">Heslo</label>
-                <div class="control">
-                    <input type="password" name="password" class="input" autocomplete="current-password" required>
-                </div>
+            <div class="mb-3">
+                <label for="password" class="form-label">Heslo</label>
+                <input type="password" name="password" id="password" class="form-control"
+                       autocomplete="current-password"
+                       required>
             </div>
-
-            <div class="field">
-                <div class="control">
-                    <button type="submit" class="button is-success">Přihlásit se</button>
-                </div>
+            <div class="d-grid">
+                <button type="submit" class="btn btn-success">Přihlásit se</button>
             </div>
         </form>
-
-    </div>
-</section>
+ </section>
 </body>
 </html>
