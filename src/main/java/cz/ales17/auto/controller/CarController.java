@@ -74,7 +74,7 @@ public class CarController {
         return "cars-create";
     }
 
-    @PreAuthorize("@authorizationService.acanSaveCar(#car.getId())")
+    @PreAuthorize("@authorizationService.canSaveCar(#car.getId())")
     @PostMapping(value = "/cars", consumes = "multipart/form-data")
     public String saveCar(@RequestParam("brand-id") Optional<Long> brandId, @RequestParam("photo") MultipartFile file, @Valid @ModelAttribute("car") CarDto car, BindingResult result, Model m) {
 
