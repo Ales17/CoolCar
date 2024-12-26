@@ -40,6 +40,7 @@ public class InspectionController {
         m.addAttribute("inspection", inspection);
         List<FluidLevel> fluidLevels = List.of(FluidLevel.class.getEnumConstants());
         m.addAttribute("fluidLevels", fluidLevels);
+        m.addAttribute("title", String.format("Nová prohlídka (%s)", car.getNumberPlate()));
         return "inspections-create";
     }
 
