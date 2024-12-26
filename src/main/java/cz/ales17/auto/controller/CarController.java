@@ -4,7 +4,6 @@ import cz.ales17.auto.dto.CarDto;
 import cz.ales17.auto.entity.Brand;
 import cz.ales17.auto.entity.Car;
 import cz.ales17.auto.entity.VehicleInspection;
-import cz.ales17.auto.repository.UserRepository;
 import cz.ales17.auto.service.BrandService;
 import cz.ales17.auto.service.CarService;
 import cz.ales17.auto.service.StorageService;
@@ -29,11 +28,10 @@ public class CarController {
     private final BrandService brandService;
     private final StorageService storageService;
     private final CarService carService;
-    private final UserRepository userRepository;
 
     @GetMapping("/")
     public String homepage() {
-        return "home";
+        return "redirect:/cars";
     }
 
     @GetMapping("/cars")
