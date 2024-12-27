@@ -20,10 +20,9 @@ public class AuthorizationService {
 
     public boolean isCarOwner(Long carId) {
         Car car = carRepository.findById(carId).orElseThrow(RuntimeException::new);
-        String ownerUsername = car.getOwnedBy().getUsername();
-        String sessionUsername = SecurityUtil.getSessionUsername();
-        return ownerUsername.equals(sessionUsername);
-
+        long carOwnerId = car.getOwnedBy().getId();
+        long authenticatedUserId = SecurityUtil.getAuthenticatedUserId();
+        return carOwnerId == authenticatedUserId;
     }
 
 
