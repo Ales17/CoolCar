@@ -2,7 +2,7 @@
 <html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.w3.org/1999/xhtml"
       layout:decorate="~{layout.html}">
 <head>
-    <title>Přidat automobil</title>
+    <title th:text="${car.getId() != null} ? 'Upravit auto' : 'Přidat auto' ">Přidat automobil</title>
 </head>
 <body>
 <section layout:fragment="content">
