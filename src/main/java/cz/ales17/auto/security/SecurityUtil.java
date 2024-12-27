@@ -18,7 +18,9 @@ public class SecurityUtil {
         return Objects.requireNonNull(getPrincipal()).getUsername();
     }
 
-
+    public static long getAuthenticatedUserId() {
+        return Objects.requireNonNull(getPrincipal()).getId();
+    }
     public static UserEntity getPrincipal() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (!(authentication instanceof AnonymousAuthenticationToken)) {
