@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout.html}">
+<head>
+    <title>Seznam uživatelů</title>
+
+</head>
+<body>
+<section layout:fragment="content">
+    <div class="row">
+        <div class="col-12 col-md-6 col-lg-4 mb-3" th:each="user : ${users}">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title" th:text="${user.username}">Username</h5>
+                    <p class="card-text">
+                    <ul th:each="role : ${user.getRoles()}">
+                        <li th:text="${role.getName()}"></li>
+                    </ul>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+</body>
+</html>
