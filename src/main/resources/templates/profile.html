@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout.html}">
+<head>
+    <title>Můj profil</title>
+</head>
+<body>
+<section layout:fragment="content">
+    <div th:if="${message}" class="alert alert-warning" role="alert">Hesla se neshodují</div>
+    <form th:action="@{/profile/password}" method="POST" class="container mt-4">
+
+        <div class="mb-3">
+            <label for="oldPassword" class="form-label">Původní heslo</label>
+            <input type="password" name="oldPassword" id="oldPassword" class="form-control" autocomplete="current-password">
+        </div>
+        <div class="mb-3">
+            <label for="newPassword" class="form-label">Nové heslo</label>
+            <input type="password" name="newPassword" id="newPassword" class="form-control" autocomplete="new-password">
+        </div>
+        <div class="mb-3">
+            <label for="newPasswordAgain" class="form-label">Nové heslo</label>
+            <input type="password" name="newPasswordAgain" id="newPasswordAgain" class="form-control" autocomplete="new-password">
+        </div>
+
+        <button type="submit" class="btn btn-primary">Odeslat</button>
+    </form>
+
+</section>
+</body>
+</html>
