@@ -23,13 +23,16 @@ public class UserEntity extends AbstractEntity implements UserDetails {
 
     private String password;
 
-    @OneToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "user_roles",
+            inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")},
+            joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")})
     private Set<Role> roles;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return roles.stream().map((role) -> new SimpleGrantedAuthority(role.toString())).toList();
+        return roles.stream().map((role) -> new SimpleGrantedAuthority(role.getName())).toList();
     }
 
     @Override

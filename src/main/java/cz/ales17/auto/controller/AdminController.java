@@ -4,6 +4,7 @@ import cz.ales17.auto.entity.Car;
 import cz.ales17.auto.entity.UserEntity;
 import cz.ales17.auto.repository.UserRepository;
 import cz.ales17.auto.service.CarService;
+import jakarta.annotation.security.RolesAllowed;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
@@ -14,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.util.List;
 
 @Controller
-@Secured("ROLE_ADMIN")
+@RolesAllowed("ADMIN")
 @RequestMapping("/admin")
 @RequiredArgsConstructor
 public class AdminController {
