@@ -7,6 +7,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -28,11 +29,13 @@ public class UserEntity extends AbstractEntity implements UserDetails {
             name = "user_roles",
             inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")},
             joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")})
-    private Set<Role> roles;
+    private Set<Role> roles = new HashSet<Role>();
+    @OneToMany(mappedBy = "ownedBy", orphanRemoval = true)
+    private List<Car> cars;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return roles.stream().map((role) -> new SimpleGrantedAuthority(role.getName())).toList();
+        return roles.stream().map((role) -> new SimpleGrantedAuthority("ROLE_" + role.getName())).toList();
     }
 
     @Override
@@ -44,7 +47,4 @@ public class UserEntity extends AbstractEntity implements UserDetails {
     public String getUsername() {
         return username;
     }
-
-    @OneToMany(mappedBy = "ownedBy", orphanRemoval = true)
-    private List<Car> cars;
 }
