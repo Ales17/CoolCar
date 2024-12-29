@@ -22,6 +22,11 @@ public class AdminController {
     private final CarService carService;
     private final UserRepository userRepository;
 
+    @GetMapping("")
+    public String adminPanel() {
+        return "admin";
+    }
+
     @GetMapping("/cars")
     public String listCars(Model m) {
         List<Car> cars = carService.getCars();
