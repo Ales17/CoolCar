@@ -2,19 +2,27 @@
 <html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout.html}">
 <head>
-    <title>Detail auta</title>
+    <title th:text="${car.getLabel()}">Detail auta</title>
 </head>
 <body>
 <section layout:fragment="content">
     <p><i class="fa fa-list-ol" title="Registrační značka (SPZ)"></i> <span
             th:text="${car.getNumberPlate()}"></span><br>
-        <i class="fa fa-gear" title="VIN kód"></i> <span th:text="${car.getVinCode()}"></span></p>
+        <i class="fa fa-car" title="Značka"></i> <span th:text="${car.getBrand().getName()}"></span> <br>
+        <i class="fa fa-calendar" title="Rok výroby"></i> <span th:text="${car.getYear()}"></span> <br>
+        <i class="fa fa-list-numeric" title="VIN kód"></i> <span th:text="${car.getVinCode()}"></span> <br>
+        <i th:if="${car.getNote() != null}" class="fa fa-pencil" title="Poznámka"></i> <span
+                th:text="${car.getNote()}"></span>
 
+
+    </p>
+    <a th:href="@{/cars/{carId}/edit(carId=${car.getId()})}" class="btn btn-warning my-3">Upravit</a>
+    <button class="btn btn-danger delete-car-btn" th:data-id="${car.getId()}">Vymazat</button>
     <h2 class="text-center">Prohlídky</h2>
 
     <a th:href="@{/cars/{carId}/inspections/new(carId=${car.getId()})}" class="btn btn-primary my-3">Nová prohlídka</a>
     <div th:if="${car.getInspections().isEmpty()}">
-    Zatím neproběhla kontrola...
+        Zatím neproběhla kontrola...
     </div>
     <div th:if="${!car.getInspections().isEmpty()}">
         <div class="row g-3">
@@ -23,7 +31,8 @@
                     <img th:if="${inspection.photoUrl != null}" class="card-img-top" th:src="${inspection.photoUrl}"
                          alt="...">
                     <div class="card-body">
-                        <h5 th:text="${#temporals.format(inspection.inspectionDate, 'dd. MM. yyyy')}" class="card-title">Card title</h5>
+                        <h5 th:text="${#temporals.format(inspection.inspectionDate, 'dd. MM. yyyy')}"
+                            class="card-title">Card title</h5>
                         <p class="card-text">
                             <i class="fa fa-tint" title="Úroveň chladicí kapaliny"></i> <span
                                 th:text="${inspection.getCoolantLevel().getDisplayName().toLowerCase()}"></span> <i
