@@ -49,7 +49,7 @@ public class CarController {
         m.addAttribute("car", car);
         List<VehicleInspection> inspections = car.getInspections();
         m.addAttribute("inspections", inspections);
-        m.addAttribute("title","Detail auta");
+        m.addAttribute("title", car.getLabel());
         return "cars-detail";
     }
 
