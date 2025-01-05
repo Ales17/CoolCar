@@ -23,13 +23,14 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        String rememberMeKey = System.getenv("REMEMBER_ME_KEY");
         http
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/login/**", "/webjars/**","robots.txt").permitAll()
                         .anyRequest().authenticated()//.permitAll()
                 )
                 .csrf(AbstractHttpConfigurer::disable)
-                .rememberMe(Customizer.withDefaults())
+                .rememberMe(rememberMe -> rememberMe.key(rememberMeKey))
                 .formLogin(login -> login.loginPage("/login").loginProcessingUrl("/login").defaultSuccessUrl("/",true))
                 .logout(logout -> logout.logoutUrl("/logout"));
 
