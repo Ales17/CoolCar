@@ -28,7 +28,7 @@
                     <a class="nav-link" th:href="@{/cars/new}">Nové auto</a>
                 </li>
                 <li sec:authorize="hasRole('ADMIN')" class="nav-item">
-                    <a class="nav-link" th:href="@{/cars/new}">Admin</a>
+                    <a class="nav-link" th:href="@{/admin}">Admin</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" th:href="@{/logout}">Odhlásit se (<span
