@@ -31,13 +31,19 @@ public class AuthControllerTests {
     @MockBean
     private UserDetailsService userDetailsService;
 
+    @MockBean
+    private AuthController authController;
+
     @BeforeEach
     void init() {
         UserEntity testUser = new UserEntity();
         testUser.setUsername("user1");
         testUser.setPassword(encoder.encode("password"));
 
-        Role user = new Role((byte) 1, "USER");
+        Role user = Role.builder()
+                .id((byte)1)
+                .name("USER")
+                .build();
         Set<Role> roles = Set.of(user);
         testUser.setRoles(roles);
 
