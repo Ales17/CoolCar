@@ -38,7 +38,7 @@ public class InspectionController {
         VehicleInspection inspection = new VehicleInspection();
         inspection.setInspectionDate(LocalDate.now());
         m.addAttribute("inspection", inspection);
-        List<FluidLevel> fluidLevels = List.of(FluidLevel.class.getEnumConstants());
+        List<FluidLevel> fluidLevels = List.of(FluidLevel.OK, FluidLevel.LOW, FluidLevel.EMPTY, FluidLevel.OVERFILLED);
         m.addAttribute("fluidLevels", fluidLevels);
         m.addAttribute("title", String.format("Nová prohlídka (%s)", car.getNumberPlate()));
         return "inspections-create";
