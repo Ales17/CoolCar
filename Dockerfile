@@ -5,7 +5,7 @@ COPY pom.xml /usr/src/app
 
 RUN mvn -f /usr/src/app/pom.xml clean package
 
-FROM eclipse-temurin:21-jdk-alpine
+FROM eclipse-temurin:21-jre-alpine
 EXPOSE 8080
 
 ARG JAR_FILE=target/*.jar
