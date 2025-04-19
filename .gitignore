@@ -6,6 +6,7 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 
+/tmp
 ### STS ###
 .apt_generated
 .classpath
