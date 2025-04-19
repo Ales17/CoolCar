@@ -4,7 +4,7 @@ import cz.ales17.auto.dto.VehicleInspectionDto;
 import cz.ales17.auto.entity.VehicleInspection;
 
 public class VehicleInspectionMapper {
-    public VehicleInspection toEntity(VehicleInspectionDto dto) {
+    public static VehicleInspection toEntity(VehicleInspectionDto dto) {
         return VehicleInspection.builder()
                 .inspectionDate(dto.getInspectionDate())
                 .coolantLevel(dto.getCoolantLevel())
@@ -14,7 +14,7 @@ public class VehicleInspectionMapper {
                 .build();
     }
 
-    public VehicleInspectionDto toDto(VehicleInspection entity) {
+    public static VehicleInspectionDto toDto(VehicleInspection entity) {
         return VehicleInspectionDto.builder()
                 .id(entity.getId())
                 .inspectionDate(entity.getInspectionDate())
