@@ -1,5 +1,6 @@
 package cz.ales17.auto.controller;
 
+import cz.ales17.auto.dto.VehicleInspectionDto;
 import cz.ales17.auto.entity.Car;
 import cz.ales17.auto.entity.FluidLevel;
 import cz.ales17.auto.entity.VehicleInspection;
@@ -76,5 +77,16 @@ public class InspectionController {
         vehicleInspectionService.deleteInspectionById(inspectionId);
         return new ResponseEntity<>("OK", HttpStatus.OK);
     }
+
+    @PreAuthorize("@authorizationService.isCarOwner(#carId)")
+    @GetMapping("/{inspectionId}")
+    public String showInspection(@PathVariable Long carId, @PathVariable Long inspectionId, Model m) {
+        VehicleInspectionDto dto = vehicleInspectionService.findInspectionById(inspectionId);
+        m.addAttribute("title", "Detail prohlídky");
+        m.addAttribute("inspection", dto);
+        return "inspections-detail";
+    }
+
+
 }
 
