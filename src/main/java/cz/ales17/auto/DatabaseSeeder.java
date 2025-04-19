@@ -39,6 +39,8 @@ public class DatabaseSeeder {
 
             UserEntity user = new UserEntity();
             user.setUsername("user");
+            user.setFirstName("Jan");
+            user.setLastName("Novak");
             user.setPassword(passwordEncoder.encode("user"));
             user.setRoles(Set.of(savedRole));
             userRepository.save(user);
