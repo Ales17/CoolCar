@@ -13,8 +13,6 @@
         <i class="fa fa-list-numeric" title="VIN kód"></i> <span th:text="${car.getVinCode()}"></span> <br>
         <i th:if="${car.getNote() != null}" class="fa fa-pencil" title="Poznámka"></i> <span
                 th:text="${car.getNote()}"></span>
-
-
     </p>
     <a th:href="@{/cars/{carId}/edit(carId=${car.getId()})}" class="btn btn-warning my-3">Upravit</a>
     <button class="btn btn-danger delete-car-btn" th:data-id="${car.getId()}">Vymazat</button>
@@ -40,15 +38,12 @@
                                 style="color: green;"
                                 title="Kapalina byla doplněna"></i>
                         </p>
-
-                        <!--<a href="#" class="btn btn-primary">Upravit</a>
-                        <a href="#" class="btn btn-danger">Smazat</a>-->
+                        <a th:href="${'/cars/'+car.getId()+'/inspections/'+inspection.getId()}" class="btn btn-primary">Detail</a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
 </section>
 </body>
 </html>
