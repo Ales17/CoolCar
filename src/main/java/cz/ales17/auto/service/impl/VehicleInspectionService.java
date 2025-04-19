@@ -1,6 +1,8 @@
 package cz.ales17.auto.service.impl;
 
+import cz.ales17.auto.dto.VehicleInspectionDto;
 import cz.ales17.auto.entity.VehicleInspection;
+import cz.ales17.auto.mapper.VehicleInspectionMapper;
 import cz.ales17.auto.repository.VehicleInspectionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,5 +25,11 @@ public class VehicleInspectionService implements cz.ales17.auto.service.VehicleI
     @Override
     public void deleteInspectionById(Long id) {
         vehicleInspectionRepository.deleteById(id);
+    }
+
+    @Override
+    public VehicleInspectionDto findInspectionById(Long id) {
+        VehicleInspection vehicleInspection = vehicleInspectionRepository.findById(id).orElseThrow(RuntimeException::new);
+        return VehicleInspectionMapper.toDto(vehicleInspection);
     }
 }
