@@ -1,12 +1,13 @@
 package cz.ales17.auto.controller;
 
 import cz.ales17.auto.dto.CarDto;
+import cz.ales17.auto.dto.VehicleInspectionDto;
 import cz.ales17.auto.entity.Brand;
 import cz.ales17.auto.entity.Car;
-import cz.ales17.auto.entity.VehicleInspection;
 import cz.ales17.auto.service.BrandService;
 import cz.ales17.auto.service.CarService;
 import cz.ales17.auto.service.StorageService;
+import cz.ales17.auto.service.VehicleInspectionService;
 import cz.ales17.auto.storage.FileUtil;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -28,7 +29,7 @@ public class CarController {
     private final BrandService brandService;
     private final StorageService storageService;
     private final CarService carService;
-
+    private final VehicleInspectionService inspectionService;
     @GetMapping("/")
     public String homepage() {
         return "redirect:/cars";
@@ -47,7 +48,7 @@ public class CarController {
     public String carDetail(@PathVariable("carId") Long carId, Model m) {
         Car car = carService.getCarById(carId);
         m.addAttribute("car", car);
-        List<VehicleInspection> inspections = car.getInspections();
+        List<VehicleInspectionDto> inspections = inspectionService.findByVehicleId(carId);
         m.addAttribute("inspections", inspections);
         m.addAttribute("title", car.getLabel());
         return "cars-detail";
