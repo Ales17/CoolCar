@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class VehicleInspectionServiceImpl implements VehicleInspectionService {
@@ -18,6 +19,11 @@ public class VehicleInspectionServiceImpl implements VehicleInspectionService {
     @Override
     public List<VehicleInspection> findByCarId(Long carId) {
         return inspectionRepository.findAllByVehicle_IdIs(carId);
+    }
+
+    @Override
+    public List<VehicleInspectionDto> findByVehicleId(Long vehicleId) {
+        return inspectionRepository.findAllByVehicle_IdIs(vehicleId).stream().map(VehicleInspectionMapper::toDto).collect(Collectors.toList());
     }
 
     @Override

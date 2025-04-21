@@ -7,6 +7,7 @@ import java.util.List;
 
 public interface VehicleInspectionService {
     List<VehicleInspection> findByCarId(Long carId);
+    List<VehicleInspectionDto> findByVehicleId(Long vehicleId);
     void addInspection(VehicleInspection vehicleInspection);
     void deleteInspectionById(Long id);
     VehicleInspectionDto findInspectionById(Long id);
