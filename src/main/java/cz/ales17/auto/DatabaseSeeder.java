@@ -59,20 +59,22 @@ public class DatabaseSeeder {
 
             carRepository.save(car);
 
-            LocalDate inspectionDate = LocalDate.now();
+            LocalDate startDate = LocalDate.now().minusYears(1);
             FluidLevel level = FluidLevel.OK;
             boolean coolantRefilled = false;
             String photoUrl = "https://picsum.photos/800/600";
-            VehicleInspection inspection = VehicleInspection.builder()
-                    .inspectionDate(inspectionDate)
-                    .coolantLevel(level)
-                    .coolantRefilled(coolantRefilled)
-                    .vehicle(car)
-                    .photoUrl(photoUrl)
-                    .build();
+            for(int i = 0; i < 15; i++) {
 
-            vehicleInspectionRepository.save(inspection);
+                VehicleInspection inspection = VehicleInspection.builder()
+                        .inspectionDate(startDate.plusWeeks(i))
+                        .coolantLevel(level)
+                        .coolantRefilled(coolantRefilled)
+                        .vehicle(car)
+                        .photoUrl(photoUrl+"?random="+i)
+                        .build();
 
+                vehicleInspectionRepository.save(inspection);
+            }
 
         };
     }
