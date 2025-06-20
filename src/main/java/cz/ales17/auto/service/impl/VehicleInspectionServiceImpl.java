@@ -6,6 +6,9 @@ import cz.ales17.auto.mapper.VehicleInspectionMapper;
 import cz.ales17.auto.repository.VehicleInspectionRepository;
 import cz.ales17.auto.service.VehicleInspectionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -40,5 +43,12 @@ public class VehicleInspectionServiceImpl implements VehicleInspectionService {
     public VehicleInspectionDto findInspectionById(Long id) {
         VehicleInspection vehicleInspection = inspectionRepository.findById(id).orElseThrow(RuntimeException::new);
         return VehicleInspectionMapper.toDto(vehicleInspection);
+    }
+
+    @Override
+    public Page<VehicleInspectionDto> findByVehicleIdPaginated(Long carId, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<VehicleInspection> inspectionPage = inspectionRepository.findAllByVehicle_IdIs(carId, pageable);
+        return inspectionPage.map(VehicleInspectionMapper::toDto);
     }
 }
