@@ -1,8 +1,8 @@
 package cz.ales17.auto;
 
 import cz.ales17.auto.controller.CarController;
+import cz.ales17.auto.dto.CarDto;
 import cz.ales17.auto.entity.Brand;
-import cz.ales17.auto.entity.Car;
 import cz.ales17.auto.security.SecurityConfig;
 import cz.ales17.auto.service.BrandService;
 import cz.ales17.auto.service.CarService;
@@ -40,10 +40,10 @@ public class CarControllerTests {
     void init() {
         Brand b1 = new Brand("Toyota");
 
-        Car c1 = new Car();
+        CarDto c1 = new CarDto();
         c1.setBrand(b1);
 
-        List<Car> cars = List.of(c1);
+        List<CarDto> cars = List.of(c1);
 
         List<Brand> brands = List.of(b1);
 

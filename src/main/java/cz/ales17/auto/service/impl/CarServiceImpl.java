@@ -41,8 +41,8 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
-    public List<Car> getCarsByOwner(UserEntity user) {
-        return carRepository.findAllByOwnedByIs(user);
+    public List<CarDto> getCarsByOwner(UserEntity user) {
+        return carRepository.findAllByOwnedByIs(user).stream().map((e)-> toDto(e)).toList();
     }
 
     @Override
@@ -51,7 +51,7 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
-    public List<Car> getCarsByCurrentUser() {
+    public List<CarDto> getCarsByCurrentUser() {
         return getCarsByOwner(getPrincipal());
     }
 

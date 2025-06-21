@@ -38,8 +38,8 @@ public class CarController {
 
     @GetMapping("/cars")
     public String listCars(Model m) {
-        List<Car> cars = carService.getCarsByCurrentUser();
-        m.addAttribute("cars", cars);
+        List<CarDto> vehicles = carService.getCarsByCurrentUser();
+        m.addAttribute("cars", vehicles);
         m.addAttribute("title", "Moje auta");
         return "cars-list";
     }
@@ -51,7 +51,7 @@ public class CarController {
                             @RequestParam(defaultValue = "12",name = "size") int requestedSize,
                             Model m) {
         CarDto vehicle = carService.getCarById(carId);
-        m.addAttribute("car", vehicle);
+        m.addAttribute("vehicle", vehicle);
         Page<VehicleInspectionDto> inspectionPage = inspectionService
                 .findByVehicleIdPaginated(carId, requestedPage-1, requestedSize);
         m.addAttribute("inspectionPage", inspectionPage);

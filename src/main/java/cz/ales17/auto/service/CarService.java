@@ -9,9 +9,9 @@ import java.util.List;
 public interface CarService {
     CarDto addCar(CarDto carDto);
     void updateCar(CarDto carDto);
-    List<Car> getCarsByOwner(UserEntity user);
+    List<CarDto> getCarsByOwner(UserEntity user);
     List<Car> getCars();
-    List<Car> getCarsByCurrentUser();
+    List<CarDto> getCarsByCurrentUser();
     CarDto getCarById(Long id);
     void deleteCarById(Long id);
 }
