@@ -11,6 +11,7 @@ import cz.ales17.auto.service.VehicleInspectionService;
 import cz.ales17.auto.storage.FileUtil;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -45,11 +46,18 @@ public class CarController {
 
     @PreAuthorize("@authorizationService.isCarOwner(#carId)")
     @GetMapping("/cars/{carId}")
-    public String carDetail(@PathVariable("carId") Long carId, Model m) {
+    public String carDetail(@PathVariable("carId") Long carId,
+                            @RequestParam(defaultValue = "1", name = "page") int requestedPage,
+                            @RequestParam(defaultValue = "12",name = "size") int requestedSize,
+                            Model m) {
         Car car = carService.getCarById(carId);
         m.addAttribute("car", car);
-        List<VehicleInspectionDto> inspections = inspectionService.findByVehicleId(carId);
-        m.addAttribute("inspections", inspections);
+        Page<VehicleInspectionDto> inspectionPage = inspectionService
+                .findByVehicleIdPaginated(carId, requestedPage-1, requestedSize);
+        m.addAttribute("inspectionPage", inspectionPage);
+        m.addAttribute("currentPage", requestedPage);
+        m.addAttribute("totalPages", inspectionPage.getTotalPages());
+        m.addAttribute("carId", carId);
         m.addAttribute("title", car.getLabel());
         return "cars-detail";
     }

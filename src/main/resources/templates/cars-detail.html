@@ -24,7 +24,7 @@
     </div>
     <div th:if="${!car.getInspections().isEmpty()}">
         <div class="row g-3">
-            <div class="col-12 col-md-6 col-xl-3" th:each="inspection : ${inspections}">
+            <div class="col-12 col-md-6 col-xl-3" th:each="inspection : ${inspectionPage}">
                 <div class="card">
                     <img th:if="${inspection.photoUrl != null}" class="card-img-top" th:src="${inspection.photoUrl}"
                          alt="...">
@@ -44,6 +44,27 @@
             </div>
         </div>
     </div>
+    <nav class="mt-3">
+        <ul class="pagination">
+            <li class="page-item" th:classappend="${currentPage == 1} ? ' disabled' : ''">
+                <a class="page-link"
+                   th:href="${currentPage == 1} ? null : @{/cars/{carId}(page=${currentPage - 1}, size=12, carId=${carId})}">
+                    &laquo;
+                </a>
+            </li>
+            <li class="page-item" th:each="i : ${#numbers.sequence(1, totalPages)}">
+                <a class="page-link"
+                   th:href="@{/cars/{carId}(page=${i}, size=12, carId=${carId})}"
+                   th:text="${i}"
+                   th:classappend="${i == currentPage} ? 'active' : ''"></a>
+            </li>
+            <li class="page-item" th:classappend="${currentPage < totalPages} ? '' : 'disabled'">
+                <a class="page-link"
+                   th:href="${currentPage >= totalPages} ? null : @{/cars/{carId}(page=${currentPage + 1}, size=12, carId=${carId})}">&raquo;</a>
+
+            </li>
+        </ul>
+    </nav>
 </section>
 </body>
 </html>
