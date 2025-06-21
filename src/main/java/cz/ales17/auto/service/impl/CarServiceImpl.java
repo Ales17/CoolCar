@@ -3,7 +3,7 @@ package cz.ales17.auto.service.impl;
 import cz.ales17.auto.dto.CarDto;
 import cz.ales17.auto.entity.Car;
 import cz.ales17.auto.entity.UserEntity;
-import cz.ales17.auto.mapper.CarMapper;
+import cz.ales17.auto.mapper.VehicleMapper;
 import cz.ales17.auto.repository.CarRepository;
 import cz.ales17.auto.service.CarService;
 import lombok.RequiredArgsConstructor;
@@ -11,8 +11,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-import static cz.ales17.auto.mapper.CarMapper.toDto;
-import static cz.ales17.auto.mapper.CarMapper.toEntity;
+import static cz.ales17.auto.mapper.VehicleMapper.toDto;
+import static cz.ales17.auto.mapper.VehicleMapper.toEntity;
 import static cz.ales17.auto.security.SecurityUtil.getPrincipal;
 
 @Service
@@ -22,7 +22,7 @@ public class CarServiceImpl implements CarService {
 
     @Override
     public CarDto addCar(CarDto carDto) {
-        Car car = CarMapper.toEntity(carDto);
+        Car car = VehicleMapper.toEntity(carDto);
         car.setOwnedBy(getPrincipal());
         Car newCar = carRepository.save(car);
         return toDto(newCar);

@@ -3,7 +3,7 @@ package cz.ales17.auto.mapper;
 import cz.ales17.auto.dto.CarDto;
 import cz.ales17.auto.entity.Car;
 
-public class CarMapper {
+public class VehicleMapper {
     public static CarDto toDto(Car entity) {
         return CarDto.builder()
                 .id(entity.getId())

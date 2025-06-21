@@ -4,7 +4,7 @@ import cz.ales17.auto.dto.CarDto;
 import cz.ales17.auto.dto.VehicleInspectionDto;
  import cz.ales17.auto.entity.FluidLevel;
 import cz.ales17.auto.entity.VehicleInspection;
-import cz.ales17.auto.mapper.CarMapper;
+import cz.ales17.auto.mapper.VehicleMapper;
 import cz.ales17.auto.service.CarService;
 import cz.ales17.auto.service.StorageService;
 import cz.ales17.auto.service.VehicleInspectionService;
@@ -67,7 +67,7 @@ public class InspectionController {
         }
 
         CarDto car = carService.getCarById(carId);
-        inspection.setVehicle(CarMapper.toEntity(car));
+        inspection.setVehicle(VehicleMapper.toEntity(car));
         vehicleInspectionService.addInspection(inspection);
         return "redirect:/cars/" + carId;
     }
