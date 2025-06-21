@@ -12,6 +12,6 @@ public interface CarService {
     List<Car> getCarsByOwner(UserEntity user);
     List<Car> getCars();
     List<Car> getCarsByCurrentUser();
-    Car getCarById(Long id);
+    CarDto getCarById(Long id);
     void deleteCarById(Long id);
 }

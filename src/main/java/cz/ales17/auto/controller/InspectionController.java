@@ -1,9 +1,10 @@
 package cz.ales17.auto.controller;
 
+import cz.ales17.auto.dto.CarDto;
 import cz.ales17.auto.dto.VehicleInspectionDto;
-import cz.ales17.auto.entity.Car;
-import cz.ales17.auto.entity.FluidLevel;
+ import cz.ales17.auto.entity.FluidLevel;
 import cz.ales17.auto.entity.VehicleInspection;
+import cz.ales17.auto.mapper.CarMapper;
 import cz.ales17.auto.service.CarService;
 import cz.ales17.auto.service.StorageService;
 import cz.ales17.auto.service.VehicleInspectionService;
@@ -34,7 +35,7 @@ public class InspectionController {
     @PreAuthorize("@authorizationService.isCarOwner(#carId)")
     @GetMapping("/new")
     public String newInspection(@PathVariable Long carId, Model m) {
-        Car car = carService.getCarById(carId);
+        CarDto car = carService.getCarById(carId);
         m.addAttribute("car", car);
         VehicleInspection inspection = new VehicleInspection();
         inspection.setInspectionDate(LocalDate.now());
@@ -55,7 +56,7 @@ public class InspectionController {
                 inspection.setPhotoUrl(String.format("%s%s", FileUtil.ROOT_LOCATION, uploadedFilename));
             } catch (Exception e) {
                 e.printStackTrace();
-                Car car = carService.getCarById(carId);
+                CarDto car = carService.getCarById(carId);
                 m.addAttribute("car", car);
                 m.addAttribute("message", "Chyba při nahrání souboru");
                 m.addAttribute("inspection", inspection);
@@ -65,8 +66,8 @@ public class InspectionController {
             }
         }
 
-        Car car = carService.getCarById(carId);
-        inspection.setVehicle(car);
+        CarDto car = carService.getCarById(carId);
+        inspection.setVehicle(CarMapper.toEntity(car));
         vehicleInspectionService.addInspection(inspection);
         return "redirect:/cars/" + carId;
     }

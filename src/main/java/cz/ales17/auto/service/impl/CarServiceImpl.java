@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 import static cz.ales17.auto.mapper.CarMapper.toDto;
+import static cz.ales17.auto.mapper.CarMapper.toEntity;
 import static cz.ales17.auto.security.SecurityUtil.getPrincipal;
 
 @Service
@@ -29,14 +30,14 @@ public class CarServiceImpl implements CarService {
 
     @Override
     public void updateCar(CarDto carDto) {
-        Car car = getCarById(carDto.getId());
-        car.setNumberPlate(carDto.getNumberPlate());
-        car.setVinCode(carDto.getVinCode());
-        car.setLabel(carDto.getLabel());
-        car.setNote(carDto.getNote());
-        car.setYear(carDto.getYear());
-        car.setBrand(carDto.getBrand());
-        carRepository.save(car);
+        CarDto vehicle = getCarById(carDto.getId());
+        vehicle.setNumberPlate(carDto.getNumberPlate());
+        vehicle.setVinCode(carDto.getVinCode());
+        vehicle.setLabel(carDto.getLabel());
+        vehicle.setNote(carDto.getNote());
+        vehicle.setYear(carDto.getYear());
+        vehicle.setBrand(carDto.getBrand());
+        carRepository.save(toEntity(vehicle));
     }
 
     @Override
@@ -55,8 +56,9 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
-    public Car getCarById(Long id) {
-        return carRepository.findById(id).get();
+    public CarDto getCarById(Long id) {
+        Car vehicle = carRepository.findById(id).get();
+        return toDto(vehicle);
     }
 
     @Override

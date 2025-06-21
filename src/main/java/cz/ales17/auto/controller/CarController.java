@@ -50,15 +50,15 @@ public class CarController {
                             @RequestParam(defaultValue = "1", name = "page") int requestedPage,
                             @RequestParam(defaultValue = "12",name = "size") int requestedSize,
                             Model m) {
-        Car car = carService.getCarById(carId);
-        m.addAttribute("car", car);
+        CarDto vehicle = carService.getCarById(carId);
+        m.addAttribute("car", vehicle);
         Page<VehicleInspectionDto> inspectionPage = inspectionService
                 .findByVehicleIdPaginated(carId, requestedPage-1, requestedSize);
         m.addAttribute("inspectionPage", inspectionPage);
         m.addAttribute("currentPage", requestedPage);
         m.addAttribute("totalPages", inspectionPage.getTotalPages());
         m.addAttribute("carId", carId);
-        m.addAttribute("title", car.getLabel());
+        m.addAttribute("title", vehicle.getLabel());
         return "cars-detail";
     }
 
@@ -75,8 +75,8 @@ public class CarController {
     @PreAuthorize("@authorizationService.isCarOwner(#carId)")
     @GetMapping("/cars/{carId}/edit")
     public String editCarForm(@PathVariable("carId") Long carId, Model m) {
-        Car car = carService.getCarById(carId);
-        m.addAttribute("car", car);
+        CarDto vehicle = carService.getCarById(carId);
+        m.addAttribute("car", vehicle);
         List<Brand> brands = brandService.getBrands();
         m.addAttribute("brands", brands);
         m.addAttribute("title", "Upravit auto");
