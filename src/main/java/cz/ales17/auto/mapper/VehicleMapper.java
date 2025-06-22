@@ -19,15 +19,16 @@ public class VehicleMapper {
     }
 
     public static Car toEntity(CarDto dto) {
-        return Car.builder()
-                .numberPlate(dto.getNumberPlate())
-                .vinCode(dto.getVinCode())
-                .label(dto.getLabel())
-                .note(dto.getNote())
-                .year(dto.getYear())
-                .brand(dto.getBrand())
-                .ownedBy(dto.getOwnedBy())
-                .photoUrl(dto.getPhotoUrl())
-                .build();
+        Car vehicle = new Car();
+        vehicle.setId(dto.getId());
+        vehicle.setNumberPlate(dto.getNumberPlate());
+        vehicle.setVinCode(dto.getVinCode());
+        vehicle.setLabel(dto.getLabel());
+        vehicle.setNote(dto.getNote());
+        vehicle.setYear(dto.getYear());
+        vehicle.setBrand(dto.getBrand());
+        vehicle.setOwnedBy(dto.getOwnedBy());
+        vehicle.setPhotoUrl(dto.getPhotoUrl());
+        return vehicle;
     }
 }
