@@ -18,11 +18,12 @@
     <button class="btn btn-danger delete-car-btn" th:data-id="${vehicle.getId()}">Vymazat</button>
     <h2 class="text-center">Prohlídky</h2>
 
-    <a th:href="@{/cars/{carId}/inspections/new(carId=${vehicle.getId()})}" class="btn btn-primary my-3">Nová prohlídka</a>
-    <div th:if="${vehicle.getInspections().isEmpty()}">
+    <a th:href="@{/cars/{carId}/inspections/new(carId=${vehicle.getId()})}" class="btn btn-primary my-3">Nová
+        prohlídka</a>
+    <div th:if="${inspectionPage.getContent().size() == 0}">
         Zatím neproběhla kontrola...
     </div>
-    <div th:if="${!vehicle.getInspections().isEmpty()}">
+    <div th:if="${inspectionPage.getContent().size() >= 1}">
         <div class="row g-3">
             <div class="col-12 col-md-6 col-xl-3" th:each="inspection : ${inspectionPage}">
                 <div class="card">
@@ -38,33 +39,35 @@
                                 style="color: green;"
                                 title="Kapalina byla doplněna"></i>
                         </p>
-                        <a th:href="${'/cars/'+vehicle.getId()+'/inspections/'+inspection.getId()}" class="btn btn-primary">Detail</a>
+                        <a th:href="${'/cars/'+vehicle.getId()+'/inspections/'+inspection.getId()}"
+                           class="btn btn-primary">Detail</a>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    <nav class="mt-3">
-        <ul class="pagination">
-            <li class="page-item" th:classappend="${currentPage == 1} ? ' disabled' : ''">
-                <a class="page-link"
-                   th:href="${currentPage == 1} ? null : @{/cars/{carId}(page=${currentPage - 1}, size=12, carId=${carId})}">
-                    &laquo;
-                </a>
-            </li>
-            <li class="page-item" th:each="i : ${#numbers.sequence(1, totalPages)}">
-                <a class="page-link"
-                   th:href="@{/cars/{carId}(page=${i}, size=12, carId=${carId})}"
-                   th:text="${i}"
-                   th:classappend="${i == currentPage} ? 'active' : ''"></a>
-            </li>
-            <li class="page-item" th:classappend="${currentPage < totalPages} ? '' : 'disabled'">
-                <a class="page-link"
-                   th:href="${currentPage >= totalPages} ? null : @{/cars/{carId}(page=${currentPage + 1}, size=12, carId=${carId})}">&raquo;</a>
 
-            </li>
-        </ul>
-    </nav>
+        <nav class="mt-3">
+            <ul class="pagination">
+                <li class="page-item" th:classappend="${currentPage == 1} ? ' disabled' : ''">
+                    <a class="page-link"
+                       th:href="${currentPage == 1} ? null : @{/cars/{carId}(page=${currentPage - 1}, size=12, carId=${carId})}">
+                        &laquo;
+                    </a>
+                </li>
+                <li class="page-item" th:each="i : ${#numbers.sequence(1, totalPages)}">
+                    <a class="page-link"
+                       th:href="@{/cars/{carId}(page=${i}, size=12, carId=${carId})}"
+                       th:text="${i}"
+                       th:classappend="${i == currentPage} ? 'active' : ''"></a>
+                </li>
+                <li class="page-item" th:classappend="${currentPage < totalPages} ? '' : 'disabled'">
+                    <a class="page-link"
+                       th:href="${currentPage >= totalPages} ? null : @{/cars/{carId}(page=${currentPage + 1}, size=12, carId=${carId})}">&raquo;</a>
+
+                </li>
+            </ul>
+        </nav>
+    </div>
 </section>
 </body>
 </html>
