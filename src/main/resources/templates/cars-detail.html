@@ -26,8 +26,10 @@
     <div th:if="${inspectionPage.getContent().size() >= 1}">
         <div class="row g-3">
             <div class="col-12 col-md-6 col-xl-3" th:each="inspection : ${inspectionPage}">
-                <div class="card">
-                    <img th:if="${inspection.photoUrl != null}" class="card-img-top" th:src="${inspection.photoUrl}"
+                <div class="card" style="overflow: hidden
+">
+                    <div th:if="${inspection.photoUrl == null}" style="aspect-ratio: 4/3; background: #cccccc"></div>
+                    <img th:if="${inspection.photoUrl != null}" style="object-fit: cover;aspect-ratio: 4/3;" class="card-img-top" th:src="${inspection.photoUrl}"
                          alt="...">
                     <div class="card-body">
                         <h5 th:text="${#temporals.format(inspection.inspectionDate, 'dd. MM. yyyy')}"
