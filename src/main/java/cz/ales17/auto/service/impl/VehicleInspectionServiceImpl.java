@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -47,7 +48,7 @@ public class VehicleInspectionServiceImpl implements VehicleInspectionService {
 
     @Override
     public Page<VehicleInspectionDto> findByVehicleIdPaginated(Long carId, int page, int size) {
-        Pageable pageable = PageRequest.of(page, size);
+        Pageable pageable = PageRequest.of(page, size, Sort.by("inspectionDate").descending());
         Page<VehicleInspection> inspectionPage = inspectionRepository.findAllByVehicle_IdIs(carId, pageable);
         return inspectionPage.map(VehicleInspectionMapper::toDto);
     }
