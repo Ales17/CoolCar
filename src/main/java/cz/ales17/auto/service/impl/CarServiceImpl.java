@@ -30,14 +30,17 @@ public class CarServiceImpl implements CarService {
 
     @Override
     public void updateCar(CarDto carDto) {
-        CarDto vehicle = getCarById(carDto.getId());
+        Car vehicle = carRepository.findById(carDto.getId()).orElse(null);
+        if (vehicle == null) {
+            throw new IllegalArgumentException("Car with ID " + carDto.getId() + " does not exist.");
+        }
         vehicle.setNumberPlate(carDto.getNumberPlate());
         vehicle.setVinCode(carDto.getVinCode());
         vehicle.setLabel(carDto.getLabel());
         vehicle.setNote(carDto.getNote());
         vehicle.setYear(carDto.getYear());
         vehicle.setBrand(carDto.getBrand());
-        carRepository.save(toEntity(vehicle));
+        carRepository.save(vehicle);
     }
 
     @Override
