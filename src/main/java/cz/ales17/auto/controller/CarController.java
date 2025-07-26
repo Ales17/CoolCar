@@ -1,13 +1,9 @@
 package cz.ales17.auto.controller;
 
-import cz.ales17.auto.dto.CarDto;
-import cz.ales17.auto.dto.VehicleInspectionDto;
+import cz.ales17.auto.dto.*;
+import cz.ales17.auto.entity.ApiCall;
 import cz.ales17.auto.entity.Brand;
-import cz.ales17.auto.entity.Car;
-import cz.ales17.auto.service.BrandService;
-import cz.ales17.auto.service.CarService;
-import cz.ales17.auto.service.StorageService;
-import cz.ales17.auto.service.VehicleInspectionService;
+import cz.ales17.auto.service.*;
 import cz.ales17.auto.storage.FileUtil;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 import java.util.Optional;
 
+
 @Controller
 @RequiredArgsConstructor
 public class CarController {
@@ -31,6 +28,8 @@ public class CarController {
     private final StorageService storageService;
     private final CarService carService;
     private final VehicleInspectionService inspectionService;
+    private final RegistryResponseService registryResponseService;
+    private final VehicleDataProvider vehicleDataProvider;
     @GetMapping("/")
     public String homepage() {
         return "redirect:/cars";
@@ -48,17 +47,31 @@ public class CarController {
     @GetMapping("/cars/{carId}")
     public String carDetail(@PathVariable("carId") Long carId,
                             @RequestParam(defaultValue = "1", name = "page") int requestedPage,
-                            @RequestParam(defaultValue = "12",name = "size") int requestedSize,
+                            @RequestParam(defaultValue = "12", name = "size") int requestedSize,
                             Model m) {
         CarDto vehicle = carService.getCarById(carId);
         m.addAttribute("vehicle", vehicle);
         Page<VehicleInspectionDto> inspectionPage = inspectionService
-                .findByVehicleIdPaginated(carId, requestedPage-1, requestedSize);
+                .findByVehicleIdPaginated(carId, requestedPage - 1, requestedSize);
         m.addAttribute("inspectionPage", inspectionPage);
         m.addAttribute("currentPage", requestedPage);
         m.addAttribute("totalPages", inspectionPage.getTotalPages());
         m.addAttribute("carId", carId);
-        m.addAttribute("title", vehicle.getLabel());
+        m.addAttribute("title", vehicle.getBrand().getName() + " " + vehicle.getNumberPlate());
+
+        ApiCall data = null;
+
+        try {
+            data = vehicleDataProvider.getVehicleData(vehicle.getVinCode());
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        if (data != null) {
+            System.out.println(data);
+            m.addAttribute("data", data);
+        }
+
         return "cars-detail";
     }
 
@@ -118,6 +131,7 @@ public class CarController {
             return "redirect:/cars/" + car.getId();
         }
     }
+
     @PreAuthorize("@authorizationService.isCarOwner(#carId)")
     @DeleteMapping("/cars/{carId}")
     public ResponseEntity<String> deleteCar(@PathVariable("carId") Long carId) {

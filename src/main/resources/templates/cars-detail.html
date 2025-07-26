@@ -2,18 +2,68 @@
 <html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout.html}">
 <head>
-    <title th:text="${vehicle.getLabel()}">Detail auta</title>
+    <title th:text="${vehicle.getBrand().getName()} + ' ' + ${vehicle.getNumberPlate()}">Detail auta</title>
 </head>
 <body>
 <section layout:fragment="content">
-    <p><i class="fa fa-list-ol" title="Registrační značka (SPZ)"></i> <span
-            th:text="${vehicle.getNumberPlate()}"></span><br>
-        <i class="fa fa-car" title="Značka"></i> <span th:text="${vehicle.getBrand().getName()}"></span> <br>
-        <i class="fa fa-calendar" title="Rok výroby"></i> <span th:text="${vehicle.getYear()}"></span> <br>
-        <i class="fa fa-list-numeric" title="VIN kód"></i> <span th:text="${vehicle.getVinCode()}"></span> <br>
-        <i th:if="${vehicle.getNote() != null}" class="fa fa-pencil" title="Poznámka"></i> <span
-                th:text="${vehicle.getNote()}"></span>
+    <p class="text-center fst-italic m-0" th:if="${vehicle.getLabel() != null}" th:text="${vehicle.getLabel()}"></p>
+    <p th:if="${vehicle.getNote() != null}">  <span th:text="${'Poznámka: ' + vehicle.getNote()}"></span>
     </p>
+    <p class="text-center m-0"> RV  <span th:text="${vehicle.getYear()}"></span></p>
+    <p class="text-center"> VIN  <span th:text="${vehicle.getVinCode()}"></span></p>
+    <details>
+        <summary style="font-size: 1.3rem">Informace z registru</summary>
+        <div class="table-responsive">
+            <table class="table " th:if="${data.getResponseData() != null}" th:object="${data.getResponseData()}">
+                <tbody>
+                <tr>
+                    <th scope="row">VIN</th>
+                    <td><span th:text="${vehicle.getVinCode()}"></span></td>
+                </tr>
+                <tr>
+                    <th scope="row">STK platná do</th>
+                    <td><span th:text="*{#temporals.format(pravidelnaTechnickaProhlidkaDo, 'dd. MM. yyyy')}"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row">Malý TP</th>
+                    <td><span th:text="*{cisloOrv}"></span></td>
+                </tr>
+                <tr>
+                    <th scope="row"><abbr title="ORV č. II - od roku 2024 se již nevydává.">Velký TP</abbr></th>
+                    <td><span th:text="*{cisloTp}"></span></td>
+                </tr>
+                <tr>
+                    <th scope="row">Palivo</th>
+                    <td><span th:text="*{palivo}"></span></td>
+                </tr>
+                <tr>
+                    <th scope="row">Kategorie</th>
+                    <td><span th:text="*{kategorie}"></span></td>
+                </tr>
+                <tr>
+                    <th scope="row">Datum první registrace</th>
+                    <td><span th:text="*{#temporals.format(datumPrvniRegistrace, 'dd. MM. yyyy')}"></span></td>
+                </tr>
+                <tr>
+                    <th scope="row">Datum první registrace (ČR)</th>
+                    <td><span th:text="*{#temporals.format(datumPrvniRegistraceVCr, 'dd. MM. yyyy')}"></span></td>
+                </tr>
+                <tr>
+                    <th scope="row">Stav</th>
+                    <td><span th:text="*{statusNazev}"></span></td>
+                </tr>
+                <tr>
+                    <th scope="row">Provozovatelů / vlastníků</th>
+                    <td><span th:text="*{pocetProvozovatelu}"></span>/<span th:text="*{pocetVlastniku}"></span></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <p>Informace aktuální k <span th:text="${#temporals.format(data.getCreatedOn(), 'dd. MM. yyyy')}"></span></p>
+    </details>
+
+
     <a th:href="@{/cars/{carId}/edit(carId=${vehicle.getId()})}" class="btn btn-warning my-3">Upravit</a>
     <button class="btn btn-danger delete-car-btn" th:data-id="${vehicle.getId()}">Vymazat</button>
     <h2 class="text-center">Prohlídky</h2>
@@ -29,7 +79,8 @@
                 <div class="card" style="overflow: hidden
 ">
                     <div th:if="${inspection.photoUrl == null}" style="aspect-ratio: 4/3; background: #cccccc"></div>
-                    <img th:if="${inspection.photoUrl != null}" style="object-fit: cover;aspect-ratio: 4/3;" class="card-img-top" th:src="${inspection.photoUrl}"
+                    <img th:if="${inspection.photoUrl != null}" style="object-fit: cover;aspect-ratio: 4/3;"
+                         class="card-img-top" th:src="${inspection.photoUrl}"
                          alt="...">
                     <div class="card-body">
                         <h5 th:text="${#temporals.format(inspection.inspectionDate, 'dd. MM. yyyy')}"
