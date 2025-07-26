@@ -11,4 +11,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Brand extends AbstractEntity {
     public String name;
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }
