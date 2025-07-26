@@ -3,13 +3,15 @@ package cz.ales17.auto.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 
+import java.time.LocalDateTime;
+
 @Getter
 public class ApiResponseData {
     @JsonProperty("DatumPrvniRegistrace")
-    private String datumPrvniRegistrace;
+    private LocalDateTime datumPrvniRegistrace;
 
     @JsonProperty("DatumPrvniRegistraceVCr")
-    private String datumPrvniRegistraceVCr;
+    private LocalDateTime datumPrvniRegistraceVCr;
 
     @JsonProperty("CisloTypovehoSchvaleni")
     private String cisloTypovehoSchvaleni;
@@ -234,19 +236,19 @@ public class ApiResponseData {
     private String zarazeniVozidla;
 
     @JsonProperty("PravidelnaTechnickaProhlidkaDo")
-    private String pravidelnaTechnickaProhlidkaDo;
+    private LocalDateTime pravidelnaTechnickaProhlidkaDo;
 
     @JsonProperty("PredRegistraciProhlidkaDne")
-    private String predRegistraciProhlidkaDne;
+    private LocalDateTime predRegistraciProhlidkaDne;
 
     @JsonProperty("PredSchvalenimProhlidkaDne")
-    private String predSchvalenimProhlidkaDne;
+    private LocalDateTime predSchvalenimProhlidkaDne;
 
-    @JsonProperty("encniProhlidkaDne")
-    private String encniProhlidkaDne;
+    @JsonProperty("EvidencniProhlidkaDne")
+    private LocalDateTime evidencniProhlidkaDne;
 
     @JsonProperty("HistorickeVozidloProhlidkaDne")
-    private String historickeVozidloProhlidkaDne;
+    private LocalDateTime historickeVozidloProhlidkaDne;
 
     @JsonProperty("StatusNazev")
     private String statusNazev;
@@ -256,4 +258,94 @@ public class ApiResponseData {
 
     @JsonProperty("PocetProvozovatelu")
     private int pocetProvozovatelu;
+
+    @Override
+    public String toString() {
+        return "ApiResponseData{" +
+                "datumPrvniRegistrace=" + datumPrvniRegistrace +
+                ", datumPrvniRegistraceVCr=" + datumPrvniRegistraceVCr +
+                ", cisloTypovehoSchvaleni='" + cisloTypovehoSchvaleni + '\'' +
+                ", homologaceEs='" + homologaceEs + '\'' +
+                ", vozidloDruh='" + vozidloDruh + '\'' +
+                ", vozidloDruh2='" + vozidloDruh2 + '\'' +
+                ", kategorie='" + kategorie + '\'' +
+                ", tovarniZnacka='" + tovarniZnacka + '\'' +
+                ", typ='" + typ + '\'' +
+                ", varianta='" + varianta + '\'' +
+                ", verze='" + verze + '\'' +
+                ", vin='" + vin + '\'' +
+                ", obchodniOznaceni='" + obchodniOznaceni + '\'' +
+                ", vozidloVyrobce='" + vozidloVyrobce + '\'' +
+                ", motorVyrobce='" + motorVyrobce + '\'' +
+                ", motorTyp='" + motorTyp + '\'' +
+                ", motorMaxVykon='" + motorMaxVykon + '\'' +
+                ", palivo='" + palivo + '\'' +
+                ", motorZdvihObjem=" + motorZdvihObjem +
+                ", vozidloElektricke='" + vozidloElektricke + '\'' +
+                ", vozidloHybridni='" + vozidloHybridni + '\'' +
+                ", vozidloHybridniTrida='" + vozidloHybridniTrida + '\'' +
+                ", emiseEHKOSNEHSES='" + emiseEHKOSNEHSES + '\'' +
+                ", emisniUroven='" + emisniUroven + '\'' +
+                ", emiseKSA=" + emiseKSA +
+                ", emiseCO2='" + emiseCO2 + '\'' +
+                ", emiseCO2Specificke='" + emiseCO2Specificke + '\'' +
+                ", emiseSnizeniNedc='" + emiseSnizeniNedc + '\'' +
+                ", emiseSnizeniWltp='" + emiseSnizeniWltp + '\'' +
+                ", spotrebaMetodika='" + spotrebaMetodika + '\'' +
+                ", spotrebaNa100Km='" + spotrebaNa100Km + '\'' +
+                ", spotreba='" + spotreba + '\'' +
+                ", spotrebaEl='" + spotrebaEl + '\'' +
+                ", dojezdZR='" + dojezdZR + '\'' +
+                ", vyrobceKaroserie='" + vyrobceKaroserie + '\'' +
+                ", karoserieDruh='" + karoserieDruh + '\'' +
+                ", karoserieVyrobniCislo='" + karoserieVyrobniCislo + '\'' +
+                ", vozidloKaroserieBarva='" + vozidloKaroserieBarva + '\'' +
+                ", vozidloKaroserieBarvaDoplnkova='" + vozidloKaroserieBarvaDoplnkova + '\'' +
+                ", vozidloKaroserieMist='" + vozidloKaroserieMist + '\'' +
+                ", rozmery='" + rozmery + '\'' +
+                ", rozmeryRozvor='" + rozmeryRozvor + '\'' +
+                ", rozchod='" + rozchod + '\'' +
+                ", hmotnostiProvozni=" + hmotnostiProvozni +
+                ", hmotnostiPripPov='" + hmotnostiPripPov + '\'' +
+                ", hmotnostiPripPovN='" + hmotnostiPripPovN + '\'' +
+                ", hmotnostiPripPovBrzdenePV='" + hmotnostiPripPovBrzdenePV + '\'' +
+                ", hmotnostiPripPovNebrzdenePV='" + hmotnostiPripPovNebrzdenePV + '\'' +
+                ", hmotnostiPripPovJS='" + hmotnostiPripPovJS + '\'' +
+                ", hmotnostiTestWltp='" + hmotnostiTestWltp + '\'' +
+                ", hmotnostUzitecneZatizeniPrumer='" + hmotnostUzitecneZatizeniPrumer + '\'' +
+                ", vozidloSpojZarizNazev='" + vozidloSpojZarizNazev + '\'' +
+                ", napravyPocetDruh='" + napravyPocetDruh + '\'' +
+                ", napravyPneuRafky='" + napravyPneuRafky + '\'' +
+                ", hlukStojiciOtacky='" + hlukStojiciOtacky + '\'' +
+                ", hlukJizda=" + hlukJizda +
+                ", nejvyssiRychlost=" + nejvyssiRychlost +
+                ", pomerVykonHmotnost=" + pomerVykonHmotnost +
+                ", inovativniTechnologie='" + inovativniTechnologie + '\'' +
+                ", stupenDokonceni='" + stupenDokonceni + '\'' +
+                ", faktorOdchylkyDe='" + faktorOdchylkyDe + '\'' +
+                ", faktorVerifikaceVf='" + faktorVerifikaceVf + '\'' +
+                ", vozidloUcel='" + vozidloUcel + '\'' +
+                ", dalsiZaznamy='" + dalsiZaznamy + '\'' +
+                ", alternativniProvedeni='" + alternativniProvedeni + '\'' +
+                ", cisloTp='" + cisloTp + '\'' +
+                ", cisloOrv='" + cisloOrv + '\'' +
+                ", orvZadrzeno=" + orvZadrzeno +
+                ", orvKeSkartaci='" + orvKeSkartaci + '\'' +
+                ", orvOdevzdano='" + orvOdevzdano + '\'' +
+                ", rzDruh='" + rzDruh + '\'' +
+                ", rzJkVydana='" + rzJkVydana + '\'' +
+                ", rzKeSkartaci='" + rzKeSkartaci + '\'' +
+                ", rzOdevzdano='" + rzOdevzdano + '\'' +
+                ", rzZadrzena=" + rzZadrzena +
+                ", zarazeniVozidla='" + zarazeniVozidla + '\'' +
+                ", pravidelnaTechnickaProhlidkaDo='" + pravidelnaTechnickaProhlidkaDo + '\'' +
+                ", predRegistraciProhlidkaDne='" + predRegistraciProhlidkaDne + '\'' +
+                ", predSchvalenimProhlidkaDne='" + predSchvalenimProhlidkaDne + '\'' +
+                ", evidencniProhlidkaDne=" + evidencniProhlidkaDne +
+                ", historickeVozidloProhlidkaDne=" + historickeVozidloProhlidkaDne +
+                ", statusNazev='" + statusNazev + '\'' +
+                ", pocetVlastniku=" + pocetVlastniku +
+                ", pocetProvozovatelu=" + pocetProvozovatelu +
+                '}';
+    }
 }
