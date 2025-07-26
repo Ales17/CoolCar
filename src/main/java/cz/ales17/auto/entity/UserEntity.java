@@ -30,6 +30,8 @@ public class UserEntity extends AbstractEntity implements UserDetails {
     @Column(length = 50)
     private String lastName;
 
+    private String email;
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "user_roles",
