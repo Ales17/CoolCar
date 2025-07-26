@@ -17,12 +17,11 @@
                 <div class="card h-100 ">
                     <img th:src="${car.getPhotoUrl()}" class="car-image card-img-top" alt="...">
                     <div class="card-body">
-                        <h5 class="card-title" th:text="${car.getLabel()}">Card title</h5>
+                        <h5 class="card-title" th:text="${car.getBrand() + ' ' + car.getNumberPlate().substring(0,3) + ' ' + car.getNumberPlate().substring(3)}">Card title</h5>
+                        <h6 class="card-subtitle mb-2 text-muted" th:text="${car.getLabel()}" th:if="${car.getLabel != null}">Card subtitle</h6>
                         <p class="card-text">
-                            <i class="fa fa-car" title="Značka"></i>  <span th:text="${car.getBrand().getName()}"></span> <br>
                             <i class="fa fa-calendar" title="Rok výroby"></i>  <span th:text="${car.getYear()}"></span> <br>
                             <i class="fa fa-list-numeric" title="VIN kód"></i>  <span th:text="${car.getVinCode()}"></span> <br>
-                            <i th:if="${car.getNote() != null}" class="fa fa-pencil" title="Poznámka"></i>  <span th:text="${car.getNote()}"></span>
                         </p>
                         <div class="hstack gap-1">
                         <a th:href="@{/cars/{id}(id=${car.getId()})}" class="btn btn-primary">Detail</a>

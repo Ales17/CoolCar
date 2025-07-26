@@ -20,25 +20,18 @@ public class RegistryResponseServiceImpl implements RegistryResponseService {
     private final CarRepository carRepository;
 
     @Override
-    public void saveApiCall(ApiResponseData data, String vin) {
+    public ApiCall saveApiCall(ApiResponseData data, String vin) {
         Car vehicle = carRepository.findByVinCode(vin);
         ApiCall apiCall = new ApiCall();
         apiCall.setVehicle(vehicle);
         apiCall.setResponseData(data);
-        apiCallRepository.save(apiCall);
+        return apiCallRepository.save(apiCall);
     }
 
-    public ApiResponseData mapToResponseData(ApiCall apiCall) {
-        return apiCall.getResponseData();
-    }
     @Override
-    public Optional<ApiResponseData> findRecent(String vin, Duration maxAge) {
+    public Optional<ApiCall> findRecent(String vin, Duration maxAge) {
         LocalDateTime threshold = LocalDateTime.now().minus(maxAge);
         return apiCallRepository
-                .findTopByVehicle_VinCodeAndCreatedOnAfterOrderByCreatedOnDesc(vin, threshold)
-                .map(this::mapToResponseData);
+                .findTopByVehicle_VinCodeAndCreatedOnAfterOrderByCreatedOnDesc(vin, threshold);
     }
-
-
-
 }

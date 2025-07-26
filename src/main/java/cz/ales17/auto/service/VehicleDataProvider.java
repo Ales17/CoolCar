@@ -1,7 +1,7 @@
 package cz.ales17.auto.service;
 
-import cz.ales17.auto.dto.ApiResponseData;
+import cz.ales17.auto.entity.ApiCall;
 
 public interface VehicleDataProvider {
-    ApiResponseData getVehicleData(String vin) throws Exception;
+    ApiCall getVehicleData(String vin) throws Exception;
 }
