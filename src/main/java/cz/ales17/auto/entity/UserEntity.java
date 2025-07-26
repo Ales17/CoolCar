@@ -19,9 +19,9 @@ import java.util.Set;
 @Getter
 @Table(name = "user")
 public class UserEntity extends AbstractEntity implements UserDetails {
-
+    @Column(nullable = false, unique = true)
     private String username;
-
+    @Column(nullable = false)
     private String password;
 
     @Column(length = 50)
@@ -29,7 +29,7 @@ public class UserEntity extends AbstractEntity implements UserDetails {
 
     @Column(length = 50)
     private String lastName;
-
+    @Column(unique = true)
     private String email;
 
     @ManyToMany(fetch = FetchType.EAGER)
@@ -37,7 +37,7 @@ public class UserEntity extends AbstractEntity implements UserDetails {
             name = "user_roles",
             inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")},
             joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")})
-    private Set<Role> roles = new HashSet<Role>();
+    private Set<Role> roles = new HashSet<>();
     @OneToMany(mappedBy = "ownedBy", orphanRemoval = true)
     private List<Car> cars;
 
