@@ -22,8 +22,12 @@ public class VehicleDataProviderImpl implements VehicleDataProvider {
             System.out.println("Found recent vehicle data. I will not call the API.");
             return cached.get();
         }
-        ApiResponseData fresh = apiClient.fetchFromRegistry(vin);
-        return responseService.saveApiCall(fresh, vin);
+        try {
+            ApiResponseData fresh = apiClient.fetchFromRegistry(vin);
+            return responseService.saveApiCall(fresh, vin);
+        } catch (Exception e) {
+            return null;
+        }
 
     }
 }

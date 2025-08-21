@@ -60,17 +60,12 @@ public class CarController {
         m.addAttribute("title", vehicle.getBrand().getName() + " " + vehicle.getNumberPlate());
 
         ApiCall data = null;
-
         try {
             data = vehicleDataProvider.getVehicleData(vehicle.getVinCode());
-
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-        if (data != null) {
-            System.out.println(data);
-            m.addAttribute("data", data);
-        }
+        m.addAttribute("data", data);
 
         return "cars-detail";
     }

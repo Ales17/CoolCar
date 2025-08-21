@@ -11,10 +11,10 @@
     </p>
     <p class="text-center m-0"> RV  <span th:text="${vehicle.getYear()}"></span></p>
     <p class="text-center"> VIN  <span th:text="${vehicle.getVinCode()}"></span></p>
-    <details>
+    <details th:if="${data != null}">
         <summary style="font-size: 1.3rem">Informace z registru</summary>
         <div class="table-responsive">
-            <table class="table " th:if="${data.getResponseData() != null}" th:object="${data.getResponseData()}">
+            <table class="table" th:object="${data.getResponseData()}">
                 <tbody>
                 <tr>
                     <th scope="row">VIN</th>
