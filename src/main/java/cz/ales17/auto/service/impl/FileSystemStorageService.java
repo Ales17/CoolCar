@@ -64,6 +64,12 @@ public class FileSystemStorageService implements StorageService {
             }
             // EXTENSION CHECK
             String extension = getExtension(originalFilename);
+
+            if (Objects.equals(extension, "")) {
+                String ex = "Uploaded file has no extension.";
+                throw new StorageException(ex);
+            }
+
             if (!allowedFileTypes.containsKey(extension)) {
                 String ex = String.format("The %s extension is not allowed.", extension);
                 throw new StorageException(ex);
