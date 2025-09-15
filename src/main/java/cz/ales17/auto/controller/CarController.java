@@ -5,6 +5,7 @@ import cz.ales17.auto.entity.ApiCall;
 import cz.ales17.auto.entity.Brand;
 import cz.ales17.auto.service.*;
 import cz.ales17.auto.storage.FileUtil;
+import cz.ales17.auto.storage.StorageException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -107,10 +108,10 @@ public class CarController {
                 String uploadedFilename = storageService.store(file);
                 String photoUrl = String.format("%s%s", FileUtil.ROOT_LOCATION, uploadedFilename);
                 car.setPhotoUrl(photoUrl);
-            } catch (Exception e) {
+            } catch (StorageException e) {
                 e.printStackTrace();
                 m.addAttribute("car", car);
-                m.addAttribute("message", "Chyba při nahrání souboru");
+                m.addAttribute("message", "Chyba při nahrání souboru: " + e.getMessage());
                 return "cars-create";
             }
         }
