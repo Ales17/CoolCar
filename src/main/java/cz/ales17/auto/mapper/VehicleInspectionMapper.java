@@ -5,23 +5,24 @@ import cz.ales17.auto.entity.VehicleInspection;
 
 public class VehicleInspectionMapper {
     public static VehicleInspection toEntity(VehicleInspectionDto dto) {
-        return VehicleInspection.builder()
-                .inspectionDate(dto.getInspectionDate())
-                .coolantLevel(dto.getCoolantLevel())
-                .coolantRefilled(dto.isCoolantRefilled())
-                .vehicle(dto.getVehicle())
-                .photoUrl(dto.getPhotoUrl())
-                .build();
+        VehicleInspection i = new VehicleInspection();
+        i.setId(dto.getId());
+        i.setInspectionDate(dto.getInspectionDate());
+        i.setCoolantLevel(dto.getCoolantLevel());
+        i.setCoolantRefilled(dto.isCoolantRefilled());
+        i.setVehicle(dto.getVehicle());
+        i.setPhotoUrl(dto.getPhotoUrl());
+        return i;
     }
 
     public static VehicleInspectionDto toDto(VehicleInspection entity) {
-        return VehicleInspectionDto.builder()
-                .id(entity.getId())
-                .inspectionDate(entity.getInspectionDate())
-                .coolantLevel(entity.getCoolantLevel())
-                .coolantRefilled(entity.isCoolantRefilled())
-                .vehicle(entity.getVehicle())
-                .photoUrl(entity.getPhotoUrl())
-                .build();
+        VehicleInspectionDto d = new VehicleInspectionDto();
+        d.setId(entity.getId());
+        d.setInspectionDate(entity.getInspectionDate());
+        d.setCoolantLevel(entity.getCoolantLevel());
+        d.setCoolantRefilled(entity.isCoolantRefilled());
+        d.setPhotoUrl(entity.getPhotoUrl());
+        d.setVehicle(entity.getVehicle());
+        return d;
     }
 }
