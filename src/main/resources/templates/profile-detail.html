@@ -6,22 +6,27 @@
 </head>
 <body>
 <section layout:fragment="content">
-    <form>
-        <div class="form-group mb-3">
-            <label for="username" class="form-label">Uživatelské jméno</label>
-            <input class="form-control" type="text" id="username" th:value="${#authentication.name}" disabled>
-        </div>
-
+    <div class="form-group mb-3">
+        <label for="username" class="form-label">Uživatelské jméno</label>
+        <input class="form-control" type="text" id="username" th:value="${#authentication.name}" disabled>
+    </div>
+    <form method="post" th:object="${userDto}">
         <div class="form-group mb-3">
             <label class="form-label">Jméno</label>
-            <input class="form-control" type="text" value="Jméno...">
+            <input class="form-control" type="text" th:field="*{firstName}" >
         </div>
 
         <div class="form-group mb-3">
             <label class="form-label">Příjmení</label>
-            <input class="form-control" type="text" value="Příjmení...">
+            <input class="form-control" type="text" th:field="*{lastName}">
         </div>
-
+        <div class="form-group mb-3">
+            <label class="form-label">E-mail</label>
+            <input class="form-control" type="email" th:field="*{email}">
+        </div>
+        <div class="form-group mb-3">
+            <input type="submit" class="btn btn-primary" value="Uložit">
+        </div>
     </form>
 </section>
 </body>
