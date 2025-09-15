@@ -6,8 +6,10 @@
 </head>
 <body>
 <section layout:fragment="content">
-    <form th:action="@{/cars/{carId}/inspections/new(carId=${car.getId})}" method="POST" enctype="multipart/form-data" th:object="${inspection}" class="container mt-4">
-
+    <div th:if="${fileError}" class="alert alert-danger" th:text="${fileError}"></div>
+    <form th:action="@{/cars/{carId}/inspections/new(carId=${carId})}" method="POST" enctype="multipart/form-data" th:object="${inspection}" class="container mt-4">
+        <input type="hidden" th:field="*{id}" />
+        <input type="hidden" th:field="*{photoUrl}">
         <div class="mb-3">
             <label for="inspectionDate" class="form-label">Datum kontroly</label>
             <input type="date" name="inspectionDate" id="inspectionDate" th:value="*{inspectionDate}" class="form-control">
@@ -25,7 +27,7 @@
         </div>
 
         <div class="mb-3 form-check">
-            <input type="checkbox" name="coolantRefilled" id="coolantRefilled" th:value="*{coolantRefilled}" class="form-check-input">
+            <input type="checkbox" name="coolantRefilled" id="coolantRefilled" th:checked="*{coolantRefilled}" class="form-check-input">
             <label for="coolantRefilled" class="form-check-label">Bylo doplněno?</label>
         </div>
 
