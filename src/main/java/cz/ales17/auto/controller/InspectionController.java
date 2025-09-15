@@ -2,8 +2,9 @@ package cz.ales17.auto.controller;
 
 import cz.ales17.auto.dto.CarDto;
 import cz.ales17.auto.dto.VehicleInspectionDto;
- import cz.ales17.auto.entity.FluidLevel;
+import cz.ales17.auto.entity.FluidLevel;
 import cz.ales17.auto.entity.VehicleInspection;
+import cz.ales17.auto.mapper.VehicleInspectionMapper;
 import cz.ales17.auto.mapper.VehicleMapper;
 import cz.ales17.auto.service.CarService;
 import cz.ales17.auto.service.StorageService;
@@ -48,28 +49,40 @@ public class InspectionController {
 
     @PreAuthorize("@authorizationService.isCarOwner(#carId)")
     @PostMapping(value = "/new", consumes = "multipart/form-data")
-    public String createNewInspection(@PathVariable Long carId, Model m, @ModelAttribute("inspection") VehicleInspection inspection, @RequestParam("photo") MultipartFile file) {
+    public String saveInspection(@PathVariable Long carId, Model m, @ModelAttribute("inspection") VehicleInspectionDto inspection, @RequestParam("photo") MultipartFile file) {
 
-        if (!file.isEmpty()) {
-            try {
-                String uploadedFilename = storageService.store(file);
-                inspection.setPhotoUrl(String.format("%s%s", FileUtil.ROOT_LOCATION, uploadedFilename));
-            } catch (Exception e) {
-                e.printStackTrace();
-                CarDto car = carService.getCarById(carId);
-                m.addAttribute("car", car);
-                m.addAttribute("message", "Chyba při nahrání souboru");
-                m.addAttribute("inspection", inspection);
-                List<FluidLevel> fluidLevels = List.of(FluidLevel.class.getEnumConstants());
-                m.addAttribute("fluidLevels", fluidLevels);
-                return "inspections-create";
+        if (!file.isEmpty() && !file.getName().isEmpty()) {
+                try {
+                    String uploadedFilename = storageService.store(file);
+                    inspection.setPhotoUrl(String.format("%s%s", FileUtil.ROOT_LOCATION, uploadedFilename));
+                } catch (Exception e) {
+                    CarDto car = carService.getCarById(carId);
+                    m.addAttribute("car", car);
+                    m.addAttribute("message", "Chyba při nahrání souboru: " + e.getMessage());
+                    m.addAttribute("inspection", inspection);
+                    List<FluidLevel> fluidLevels = List.of(FluidLevel.class.getEnumConstants());
+                    m.addAttribute("fluidLevels", fluidLevels);
+                    return "inspections-create";
+                }
             }
-        }
 
         CarDto car = carService.getCarById(carId);
         inspection.setVehicle(VehicleMapper.toEntity(car));
-        vehicleInspectionService.addInspection(inspection);
+
+        vehicleInspectionService.addInspection(VehicleInspectionMapper.toEntity(inspection));
+        System.out.println("X");
         return "redirect:/cars/" + carId;
+    }
+
+    @PreAuthorize("@authorizationService.isCarOwner(#carId)")
+    @GetMapping("/{inspectionId}/edit")
+    public String editInspectionPage(@PathVariable Long inspectionId, @PathVariable Long carId, Model m) {
+
+        VehicleInspectionDto existingInspection = vehicleInspectionService.findInspectionById(inspectionId);
+        List<FluidLevel> fluidLevels = List.of(FluidLevel.OK, FluidLevel.LOW, FluidLevel.EMPTY, FluidLevel.OVERFILLED);
+        m.addAttribute("fluidLevels", fluidLevels);
+        m.addAttribute("inspection", existingInspection);
+        return "inspections-create";
     }
 
     @PreAuthorize("@authorizationService.isCarOwner(#carId)")
