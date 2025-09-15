@@ -1,5 +1,6 @@
 package cz.ales17.auto.security;
 
+import cz.ales17.auto.dto.UserDetailsDto;
 import cz.ales17.auto.entity.UserEntity;
 import cz.ales17.auto.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -33,7 +34,30 @@ public class MyUserDetailsManager implements UserDetailsManager {
 
     @Override
     public void updateUser(UserDetails user) {
+        userRepository.save((UserEntity) user);
+    }
+
+    public UserDetailsDto getAuthenticatedUserDetails() {
         throw new UnsupportedOperationException();
+
+//        UserEntity user = (UserEntity) getPrincipal();
+//        UserDetailsDto dto = new UserDetailsDto();
+//        dto.setFirstName(user.getFirstName());
+//        dto.setLastName(user.getLastName());
+//        dto.setEmail(user.getEmail());
+//        return dto;
+    }
+
+    public void updateAuthenticatedUser(UserDetailsDto userDto) {
+        throw new UnsupportedOperationException();
+
+//        String authenticatedUser = SecurityUtil.getSessionUsername();
+//        UserEntity userEntity = userRepository.findByUsername(authenticatedUser);
+//        userEntity.setEmail(userDto.getEmail());
+//        userEntity.setFirstName(userDto.getFirstName());
+//        userEntity.setLastName(userDto.getLastName());
+//        updateUser(userEntity);
+
     }
 
     @Override
