@@ -8,7 +8,7 @@ import java.util.stream.Stream;
 
 public interface StorageService {
 
-    String store(MultipartFile file);
+    String store(MultipartFile file) throws Exception;
 
     Stream<Path> loadAll();
 

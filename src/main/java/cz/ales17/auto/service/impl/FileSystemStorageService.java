@@ -42,7 +42,7 @@ public class FileSystemStorageService implements StorageService {
 
 
     @Override
-    public String store(MultipartFile file) {
+    public String store(MultipartFile file) throws StorageException {
         try {
             // EMPTY CHECK
             if (file.isEmpty()) {
