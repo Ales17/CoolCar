@@ -1,9 +1,14 @@
 console.log("script.js")
 
 const numberPlateInput = document.querySelector("input#numberPlate");
-
+const vinInput = document.querySelector("input#vinCode");
+// Number plate contains uppercase chars only
 numberPlateInput.addEventListener("input", (e) => {
     numberPlateInput.value = numberPlateInput.value.toUpperCase();
+})
+// VIN contains uppercase chars only
+vinInput.addEventListener("input", (e) => {
+    vinInput.value = vinInput.value.toUpperCase();
 })
 
 const deleteButtons = document.getElementsByClassName('delete-car-btn')
