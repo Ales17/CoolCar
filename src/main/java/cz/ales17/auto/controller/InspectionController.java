@@ -48,7 +48,7 @@ public class InspectionController {
     }
 
     @PreAuthorize("@authorizationService.isCarOwner(#carId)")
-    @PostMapping(value = "/new", consumes = "multipart/form-data")
+    @PostMapping(value = "/save", consumes = "multipart/form-data")
     public String saveInspection(@PathVariable Long carId, Model m, @ModelAttribute("inspection") VehicleInspectionDto inspection, @RequestParam("photo") MultipartFile file) {
 
         if (!file.isEmpty() && !file.getName().isEmpty()) {

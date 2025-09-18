@@ -6,6 +6,7 @@
 </head>
 <body>
 <section layout:fragment="content">
+    <div th:if="${message != null}" th:text="${message}"></div>
     <form th:action="@{/cars}" method="POST" enctype="multipart/form-data" th:object="${car}" class="container mt-4">
 
         <input type="hidden" name="id" th:value="*{id}">
