@@ -7,11 +7,10 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.Type;
 
-import java.time.LocalDateTime;
-
 @Entity
 @Setter
 @Getter
+@Table(name = "api_call")
 public class ApiCall extends AbstractEntity {
 
     @Type(JsonStringType.class)
