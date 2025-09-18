@@ -4,7 +4,11 @@ import lombok.Getter;
 
 @Getter
 public enum FluidLevel {
-    EMPTY("Prázdná"), LOW("Nízká"), OK("V pořádku"), OVERFILLED("Přeplněná");
+    EMPTY("Prázdná"),
+    LOW("Nízká"),
+    OK("V pořádku"),
+    OVERFILLED("Přeplněná");
+
     private final String displayName;
 
     FluidLevel(String displayName) {
