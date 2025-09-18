@@ -14,7 +14,7 @@ import java.util.List;
 public class Car extends AbstractEntity {
 
     private String numberPlate;
-
+    @Column(length = 17)
     private String vinCode;
 
     private String label;
