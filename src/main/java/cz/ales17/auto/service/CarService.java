@@ -13,5 +13,6 @@ public interface CarService {
     List<Car> getCars();
     List<CarDto> getCarsByCurrentUser();
     CarDto getCarById(Long id);
+    Car getCarEntityById(Long id);
     void deleteCarById(Long id);
 }
