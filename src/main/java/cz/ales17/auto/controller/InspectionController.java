@@ -39,6 +39,7 @@ public class InspectionController {
                                 @RequestParam(value = "vehicleId") Long vehicleId) {
         CarDto car = carService.getCarById(vehicleId);
         m.addAttribute("car", car);
+        m.addAttribute("vehicleId", vehicleId);
         VehicleInspection inspection = new VehicleInspection();
         inspection.setInspectionDate(LocalDate.now());
         m.addAttribute("inspection", inspection);
