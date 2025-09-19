@@ -22,7 +22,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.time.LocalDate;
 import java.util.List;
 
-@RequestMapping("/cars/{carId}/inspections")
 @Controller
 @RequiredArgsConstructor
 public class InspectionController {
@@ -34,7 +33,7 @@ public class InspectionController {
     private final VehicleInspectionService vehicleInspectionService;
 
     @PreAuthorize("@authorizationService.isCarOwner(#carId)")
-    @GetMapping("/new")
+    @GetMapping("/cars/{carId}/inspections/new")
     public String newInspection(@PathVariable Long carId, Model m) {
         CarDto car = carService.getCarById(carId);
         m.addAttribute("car", car);
@@ -48,7 +47,7 @@ public class InspectionController {
     }
 
     @PreAuthorize("@authorizationService.isCarOwner(#carId)")
-    @PostMapping(value = "/save", consumes = "multipart/form-data")
+    @PostMapping(value = "/cars/{carId}/inspections/save", consumes = "multipart/form-data")
     public String saveInspection(@PathVariable Long carId, Model m, @ModelAttribute("inspection") VehicleInspectionDto inspection, @RequestParam("photo") MultipartFile file) {
 
         if (!file.isEmpty() && !file.getName().isEmpty()) {
@@ -75,7 +74,7 @@ public class InspectionController {
     }
 
     @PreAuthorize("@authorizationService.isCarOwner(#carId)")
-    @GetMapping("/{inspectionId}/edit")
+    @GetMapping("/cars/{carId}/inspections/{inspectionId}/edit")
     public String editInspectionPage(@PathVariable Long inspectionId, @PathVariable Long carId, Model m) {
 
         VehicleInspectionDto existingInspection = vehicleInspectionService.findInspectionById(inspectionId);
@@ -85,15 +84,15 @@ public class InspectionController {
         return "inspections-create";
     }
 
-    @PreAuthorize("@authorizationService.isCarOwner(#carId)")
-    @DeleteMapping("/{inspectionId}")
-    public ResponseEntity<String> deleteInspection(@PathVariable Long carId, @PathVariable("inspectionId") Long inspectionId) {
-        vehicleInspectionService.deleteInspectionById(inspectionId);
+    @PreAuthorize("@authorizationService.isInspectionOwner(#inspId)")
+    @DeleteMapping("/inspections/{inspectionId}")
+    public ResponseEntity<String> deleteInspection(@PathVariable("inspectionId") Long inspId) {
+        vehicleInspectionService.deleteInspectionById(inspId);
         return new ResponseEntity<>("OK", HttpStatus.OK);
     }
 
     @PreAuthorize("@authorizationService.isCarOwner(#carId)")
-    @GetMapping("/{inspectionId}")
+    @GetMapping("/cars/{carId}/inspections/{inspectionId}")
     public String showInspection(@PathVariable Long carId, @PathVariable Long inspectionId, Model m) {
         VehicleInspectionDto dto = vehicleInspectionService.findInspectionById(inspectionId);
         m.addAttribute("title", "Detail prohlídky");
