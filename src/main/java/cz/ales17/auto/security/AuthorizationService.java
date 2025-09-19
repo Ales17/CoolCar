@@ -2,10 +2,13 @@ package cz.ales17.auto.security;
 
 import cz.ales17.auto.entity.Car;
 import cz.ales17.auto.entity.VehicleInspection;
+import cz.ales17.auto.exception.VehicleNotFoundException;
 import cz.ales17.auto.repository.CarRepository;
 import cz.ales17.auto.repository.VehicleInspectionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -21,15 +24,19 @@ public class AuthorizationService {
     }
 
     public boolean isCarOwner(Long carId) {
-        Car car = carRepository.findById(carId).orElseThrow(RuntimeException::new);
-        long carOwnerId = car.getOwnedBy().getId();
+        Optional<Car> maybeVehicle = carRepository.findById(carId);
+        if(maybeVehicle.isEmpty()) return false;
+        Car vehicle = maybeVehicle.get();
+        long carOwnerId = vehicle.getOwnedBy().getId();
         long authenticatedUserId = SecurityUtil.getAuthenticatedUserId();
         return carOwnerId == authenticatedUserId;
     }
 
     public boolean isInspectionOwner(Long inspectionId) {
-        VehicleInspection inspection = inspRepository.findById(inspectionId).orElseThrow(RuntimeException::new);
-        long inspVehicle = inspection.getVehicle().getId();
+        Optional<VehicleInspection> maybeInspection = inspRepository.findById(inspectionId);
+        if(maybeInspection.isEmpty()) return false;
+        VehicleInspection insp = maybeInspection.get();
+        long inspVehicle = insp.getVehicle().getId();
         return isCarOwner(inspVehicle);
     }
 
