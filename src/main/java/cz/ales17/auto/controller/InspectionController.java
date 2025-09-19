@@ -73,11 +73,12 @@ public class InspectionController {
         return "redirect:/cars/" + carId;
     }
 
-    @PreAuthorize("@authorizationService.isCarOwner(#carId)")
-    @GetMapping("/cars/{carId}/inspections/{inspectionId}/edit")
-    public String editInspectionPage(@PathVariable Long inspectionId, @PathVariable Long carId, Model m) {
-
+    @PreAuthorize("@authorizationService.isInspectionOwner(#inspectionId)")
+    @GetMapping({"inspections/{inspectionId}/edit"})
+    public String editInspectionPage(@PathVariable Long inspectionId, Model m) {
         VehicleInspectionDto existingInspection = vehicleInspectionService.findInspectionById(inspectionId);
+        Long vehicleId = existingInspection.getVehicle().getId();
+        m.addAttribute("carId", vehicleId);
         List<FluidLevel> fluidLevels = List.of(FluidLevel.OK, FluidLevel.LOW, FluidLevel.EMPTY, FluidLevel.OVERFILLED);
         m.addAttribute("fluidLevels", fluidLevels);
         m.addAttribute("inspection", existingInspection);
