@@ -47,7 +47,7 @@ public class InspectionController {
         return "inspections-create";
     }
 
-    @PreAuthorize("@authorizationService.isCarOwner(#carId)")
+    @PreAuthorize("@authorizationService.isCarOwner(#vehicleId)")
     @PostMapping(value = "/inspections/save", consumes = "multipart/form-data")
     public String saveInspection(@RequestParam Long vehicleId,
                                  Model m,
