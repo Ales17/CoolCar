@@ -3,6 +3,7 @@ package cz.ales17.auto.service.impl;
 import cz.ales17.auto.dto.VehicleInspectionDto;
 import cz.ales17.auto.entity.Car;
 import cz.ales17.auto.entity.VehicleInspection;
+import cz.ales17.auto.exception.VehicleNotFoundException;
 import cz.ales17.auto.mapper.VehicleInspectionMapper;
 import cz.ales17.auto.repository.CarRepository;
 import cz.ales17.auto.repository.VehicleInspectionRepository;
@@ -41,6 +42,14 @@ public class VehicleInspectionServiceImpl implements VehicleInspectionService {
 
     @Override
     public void addInspection(VehicleInspection vehicleInspection) {
+        inspectionRepository.save(vehicleInspection);
+    }
+
+    @Override
+    public void saveInspection(VehicleInspectionDto dto, Long vehicleId) {
+        Car vehicle = vehicleRepo.findById(vehicleId).orElseThrow(() -> new VehicleNotFoundException("Vehicle not found"));
+        VehicleInspection vehicleInspection = VehicleInspectionMapper.toEntity(dto);
+        vehicleInspection.setVehicle(vehicle);
         inspectionRepository.save(vehicleInspection);
     }
 

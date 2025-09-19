@@ -10,6 +10,7 @@ public interface VehicleInspectionService {
     List<VehicleInspection> findByCarId(Long carId);
     List<VehicleInspectionDto> findByVehicleId(Long vehicleId);
     void addInspection(VehicleInspection vehicleInspection);
+    void saveInspection(VehicleInspectionDto dto, Long vehicleId);
     void deleteInspectionById(Long id);
     VehicleInspectionDto findInspectionById(Long id);
     Page<VehicleInspectionDto> findByVehicleIdPaginated(Long carId, int page, int size);
