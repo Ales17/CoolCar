@@ -91,9 +91,9 @@ public class InspectionController {
         return new ResponseEntity<>("OK", HttpStatus.OK);
     }
 
-    @PreAuthorize("@authorizationService.isCarOwner(#carId)")
-    @GetMapping("/cars/{carId}/inspections/{inspectionId}")
-    public String showInspection(@PathVariable Long carId, @PathVariable Long inspectionId, Model m) {
+    @PreAuthorize("@authorizationService.isInspectionOwner(#inspectionId)")
+    @GetMapping("/inspections/{inspectionId}")
+    public String showInspection(@PathVariable Long inspectionId, Model m) {
         VehicleInspectionDto dto = vehicleInspectionService.findInspectionById(inspectionId);
         m.addAttribute("title", "Detail prohlídky");
         m.addAttribute("inspection", dto);
