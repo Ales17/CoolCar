@@ -28,7 +28,7 @@ public class InspectionController {
 
     private final CarService carService;
 
-    private final VehicleInspectionService vehicleInspectionService;
+    private final VehicleInspectionService inspService;
 
     private final List<FluidLevel> fluidLevels = List.of(FluidLevel.OK, FluidLevel.LOW, FluidLevel.EMPTY, FluidLevel.OVERFILLED);
 
@@ -66,14 +66,14 @@ public class InspectionController {
                     return "inspections-create";
                 }
             }
-        vehicleInspectionService.saveInspection(inspection, vehicleId);
+        inspService.saveInspection(inspection, vehicleId);
         return "redirect:/cars/" + vehicleId;
     }
 
     @PreAuthorize("@authorizationService.isInspectionOwner(#inspectionId)")
     @GetMapping({"/inspections/{inspectionId}/edit"})
     public String editInspectionPage(@PathVariable Long inspectionId, Model m) {
-        VehicleInspectionDto existingInspection = vehicleInspectionService.findInspectionById(inspectionId);
+        VehicleInspectionDto existingInspection = inspService.findInspectionById(inspectionId);
         Long vehicleId = existingInspection.getVehicle().getId();
         m.addAttribute("vehicleId", vehicleId);
         m.addAttribute("fluidLevels", fluidLevels);
@@ -84,14 +84,14 @@ public class InspectionController {
     @PreAuthorize("@authorizationService.isInspectionOwner(#inspId)")
     @DeleteMapping("/inspections/{inspectionId}")
     public ResponseEntity<String> deleteInspection(@PathVariable("inspectionId") Long inspId) {
-        vehicleInspectionService.deleteInspectionById(inspId);
+        inspService.deleteInspectionById(inspId);
         return new ResponseEntity<>("OK", HttpStatus.OK);
     }
 
     @PreAuthorize("@authorizationService.isInspectionOwner(#inspectionId)")
     @GetMapping("/inspections/{inspectionId}")
     public String showInspection(@PathVariable Long inspectionId, Model m) {
-        VehicleInspectionDto dto = vehicleInspectionService.findInspectionById(inspectionId);
+        VehicleInspectionDto dto = inspService.findInspectionById(inspectionId);
         m.addAttribute("title", "Detail prohlídky");
         m.addAttribute("inspection", dto);
         return "inspections-detail";
