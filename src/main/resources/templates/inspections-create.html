@@ -7,7 +7,8 @@
 <body>
 <section layout:fragment="content">
     <div th:if="${fileError}" class="alert alert-danger" th:text="${fileError}"></div>
-    <form th:action="@{/cars/{carId}/inspections/save(carId=${carId})}" method="POST" enctype="multipart/form-data" th:object="${inspection}" class="container mt-4">
+    <form th:action="@{/inspections/save}" method="POST" enctype="multipart/form-data" th:object="${inspection}" class="container mt-4">
+        <input type="hidden" name="vehicleId" th:value="${vehicleId}">
         <input type="hidden" th:field="*{id}" />
         <input type="hidden" th:field="*{photoUrl}">
         <div class="mb-3">
