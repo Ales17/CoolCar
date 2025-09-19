@@ -4,8 +4,6 @@ import cz.ales17.auto.dto.CarDto;
 import cz.ales17.auto.dto.VehicleInspectionDto;
 import cz.ales17.auto.entity.FluidLevel;
 import cz.ales17.auto.entity.VehicleInspection;
-import cz.ales17.auto.mapper.VehicleInspectionMapper;
-import cz.ales17.auto.mapper.VehicleMapper;
 import cz.ales17.auto.service.CarService;
 import cz.ales17.auto.service.StorageService;
 import cz.ales17.auto.service.VehicleInspectionService;
@@ -32,54 +30,52 @@ public class InspectionController {
 
     private final VehicleInspectionService vehicleInspectionService;
 
-    @PreAuthorize("@authorizationService.isCarOwner(#carId)")
-    @GetMapping("/cars/{carId}/inspections/new")
-    public String newInspection(@PathVariable Long carId, Model m) {
-        CarDto car = carService.getCarById(carId);
+    private final List<FluidLevel> fluidLevels = List.of(FluidLevel.OK, FluidLevel.LOW, FluidLevel.EMPTY, FluidLevel.OVERFILLED);
+
+
+    @PreAuthorize("@authorizationService.isCarOwner(#vehicleId)")
+    @GetMapping("/inspections/new")
+    public String newInspection(Model m,
+                                @RequestParam(value = "vehicleId") Long vehicleId) {
+        CarDto car = carService.getCarById(vehicleId);
         m.addAttribute("car", car);
         VehicleInspection inspection = new VehicleInspection();
         inspection.setInspectionDate(LocalDate.now());
         m.addAttribute("inspection", inspection);
-        List<FluidLevel> fluidLevels = List.of(FluidLevel.OK, FluidLevel.LOW, FluidLevel.EMPTY, FluidLevel.OVERFILLED);
         m.addAttribute("fluidLevels", fluidLevels);
         m.addAttribute("title", String.format("Nová prohlídka (%s)", car.getNumberPlate()));
         return "inspections-create";
     }
 
     @PreAuthorize("@authorizationService.isCarOwner(#carId)")
-    @PostMapping(value = "/cars/{carId}/inspections/save", consumes = "multipart/form-data")
-    public String saveInspection(@PathVariable Long carId, Model m, @ModelAttribute("inspection") VehicleInspectionDto inspection, @RequestParam("photo") MultipartFile file) {
-
+    @PostMapping(value = "/inspections/save", consumes = "multipart/form-data")
+    public String saveInspection(@RequestParam Long vehicleId,
+                                 Model m,
+                                 @ModelAttribute("inspection") VehicleInspectionDto inspection,
+                                 @RequestParam("photo") MultipartFile file) {
         if (!file.isEmpty() && !file.getName().isEmpty()) {
                 try {
                     String uploadedFilename = storageService.store(file);
                     inspection.setPhotoUrl(String.format("%s%s", FileUtil.ROOT_LOCATION, uploadedFilename));
                 } catch (Exception e) {
-                    CarDto car = carService.getCarById(carId);
-                    m.addAttribute("car", car);
+                    CarDto vehicle = carService.getCarById(vehicleId);
+                    m.addAttribute("car", vehicle);
                     m.addAttribute("message", "Chyba při nahrání souboru: " + e.getMessage());
                     m.addAttribute("inspection", inspection);
-                    List<FluidLevel> fluidLevels = List.of(FluidLevel.class.getEnumConstants());
                     m.addAttribute("fluidLevels", fluidLevels);
                     return "inspections-create";
                 }
             }
-
-        CarDto car = carService.getCarById(carId);
-        inspection.setVehicle(VehicleMapper.toEntity(car));
-
-        vehicleInspectionService.addInspection(VehicleInspectionMapper.toEntity(inspection));
-        System.out.println("X");
-        return "redirect:/cars/" + carId;
+        vehicleInspectionService.saveInspection(inspection, vehicleId);
+        return "redirect:/cars/" + vehicleId;
     }
 
     @PreAuthorize("@authorizationService.isInspectionOwner(#inspectionId)")
-    @GetMapping({"inspections/{inspectionId}/edit"})
+    @GetMapping({"/inspections/{inspectionId}/edit"})
     public String editInspectionPage(@PathVariable Long inspectionId, Model m) {
         VehicleInspectionDto existingInspection = vehicleInspectionService.findInspectionById(inspectionId);
         Long vehicleId = existingInspection.getVehicle().getId();
-        m.addAttribute("carId", vehicleId);
-        List<FluidLevel> fluidLevels = List.of(FluidLevel.OK, FluidLevel.LOW, FluidLevel.EMPTY, FluidLevel.OVERFILLED);
+        m.addAttribute("vehicleId", vehicleId);
         m.addAttribute("fluidLevels", fluidLevels);
         m.addAttribute("inspection", existingInspection);
         return "inspections-create";
