@@ -12,6 +12,7 @@
         <li th:text="${'Úroveň: ' + inspection.getCoolantLevel()}"></li>
         <li th:text="${'Doplněno: ' + inspection.isCoolantRefilled()}"></li>
     </ul>
+    <button class="btn btn-danger delete-insp" th:data-id="${inspection.getId()}">Vymazat</button>
 
 </section>
 </body>
