@@ -1,8 +1,10 @@
 package cz.ales17.auto.service.impl;
 
 import cz.ales17.auto.dto.VehicleInspectionDto;
+import cz.ales17.auto.entity.Car;
 import cz.ales17.auto.entity.VehicleInspection;
 import cz.ales17.auto.mapper.VehicleInspectionMapper;
+import cz.ales17.auto.repository.CarRepository;
 import cz.ales17.auto.repository.VehicleInspectionRepository;
 import cz.ales17.auto.service.VehicleInspectionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +19,15 @@ import java.util.stream.Collectors;
 
 @Service
 public class VehicleInspectionServiceImpl implements VehicleInspectionService {
-    @Autowired
-    private VehicleInspectionRepository inspectionRepository;
+
+    private final VehicleInspectionRepository inspectionRepository;
+
+    private final CarRepository vehicleRepo;
+
+    public VehicleInspectionServiceImpl(VehicleInspectionRepository inspectionRepository, CarRepository vehicleRepo) {
+        this.inspectionRepository = inspectionRepository;
+        this.vehicleRepo = vehicleRepo;
+    }
 
     @Override
     public List<VehicleInspection> findByCarId(Long carId) {
