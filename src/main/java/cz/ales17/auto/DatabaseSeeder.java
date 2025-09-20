@@ -55,9 +55,20 @@ public class DatabaseSeeder {
                     .numberPlate("8H80000")
                     .ownedBy(user)
                     .photoUrl("https://picsum.photos/800/600")
+                    .vinCode("TMBJB16Y823306852")
                     .build();
 
+            Car car2 = Car.builder()
+                    .brand(brandEntity)
+                    .label("Moje škodovka")
+                    .year((short) 2020)
+                    .numberPlate("7L50000")
+                    .ownedBy(user)
+                    .photoUrl("https://picsum.photos/800/600")
+                    .vinCode("HOVIB16Y823306852") // non-sense VIN for purpose
+                    .build();
             carRepository.save(car);
+            carRepository.save(car2);
 
             LocalDate startDate = LocalDate.now().minusYears(1);
             FluidLevel level = FluidLevel.OK;
