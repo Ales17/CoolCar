@@ -4,6 +4,9 @@ import cz.ales17.auto.dto.UserDetailsDto;
 import cz.ales17.auto.entity.UserEntity;
 import cz.ales17.auto.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -38,12 +41,23 @@ public class MyUserDetailsManager implements UserDetailsManager {
     }
 
     public UserDetailsDto getAuthenticatedUserDetails() {
-        UserEntity user = (UserEntity) getPrincipal();
+        UserEntity user = getPrincipal();
         UserDetailsDto dto = new UserDetailsDto();
-        dto.setFirstName(user.getFirstName());
-        dto.setLastName(user.getLastName());
-        dto.setEmail(user.getEmail());
+
+        dto.setFirstName(user.getFirstName() != null ? user.getFirstName() : "");
+        dto.setLastName(user.getLastName() != null ? user.getLastName() : "");
+        dto.setEmail(user.getEmail() != null ? user.getEmail() : "");
         return dto;
+    }
+
+
+    private void refreshAuthentication(UserEntity e) {
+        Authentication auth = new UsernamePasswordAuthenticationToken(
+                e,
+                e.getPassword(),
+                e.getAuthorities()
+        );
+        SecurityContextHolder.getContext().setAuthentication(auth);
     }
 
     public void updateAuthenticatedUser(UserDetailsDto userDto) {
@@ -52,7 +66,9 @@ public class MyUserDetailsManager implements UserDetailsManager {
         userEntity.setEmail(userDto.getEmail());
         userEntity.setFirstName(userDto.getFirstName());
         userEntity.setLastName(userDto.getLastName());
-        updateUser(userEntity);
+        UserEntity e = userRepository.save(userEntity);
+        // We need to refresh authentication, so the user sees his newly set info
+        refreshAuthentication(e);
     }
 
     @Override
