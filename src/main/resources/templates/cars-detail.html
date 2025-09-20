@@ -68,7 +68,7 @@
     <button class="btn btn-danger delete-car-btn" th:data-id="${vehicle.getId()}">Vymazat</button>
     <h2 class="text-center">Prohlídky</h2>
 
-    <a th:href="@{/cars/{carId}/inspections/new(carId=${vehicle.getId()})}" class="btn btn-primary my-3">Nová
+    <a th:href="@{/inspections/new(vehicleId=${vehicle.getId()})}" class="btn btn-primary my-3">Nová
         prohlídka</a>
     <div th:if="${inspectionPage.getContent().size() == 0}">
         Zatím neproběhla kontrola...
