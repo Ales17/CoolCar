@@ -26,7 +26,7 @@
                         <div class="hstack gap-1">
                         <a th:href="@{/cars/{id}(id=${car.getId()})}" class="btn btn-primary">Detail</a>
                         <button class="btn btn-danger delete-car-btn" th:data-id="${car.getId()}">Vymazat</button>
-                        <a th:href="@{/cars/{id}/inspections/new(id=${car.getId()})}" class="ms-auto btn btn-primary">Nová prohlídka</a>
+                        <a th:href="@{/inspections/new?vehicleId={vehicleId}(vehicleId=${car.getId()})}" class="ms-auto btn btn-primary">Nová prohlídka</a>
                         </div>
                     </div>
                 </div>
