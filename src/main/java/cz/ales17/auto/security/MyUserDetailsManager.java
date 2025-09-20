@@ -47,15 +47,12 @@ public class MyUserDetailsManager implements UserDetailsManager {
     }
 
     public void updateAuthenticatedUser(UserDetailsDto userDto) {
-        throw new UnsupportedOperationException();
-
-//        String authenticatedUser = SecurityUtil.getSessionUsername();
-//        UserEntity userEntity = userRepository.findByUsername(authenticatedUser);
-//        userEntity.setEmail(userDto.getEmail());
-//        userEntity.setFirstName(userDto.getFirstName());
-//        userEntity.setLastName(userDto.getLastName());
-//        updateUser(userEntity);
-
+        String authenticatedUser = SecurityUtil.getSessionUsername();
+        UserEntity userEntity = userRepository.findByUsername(authenticatedUser);
+        userEntity.setEmail(userDto.getEmail());
+        userEntity.setFirstName(userDto.getFirstName());
+        userEntity.setLastName(userDto.getLastName());
+        updateUser(userEntity);
     }
 
     @Override
