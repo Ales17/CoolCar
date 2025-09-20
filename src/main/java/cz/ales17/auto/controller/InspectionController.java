@@ -65,7 +65,7 @@ public class InspectionController {
                 } catch (Exception e) {
                     CarDto vehicle = carService.getCarById(vehicleId);
                     m.addAttribute("car", vehicle);
-                    m.addAttribute("message", "Chyba při nahrání souboru: " + e.getMessage());
+                    m.addAttribute("message", "Vyberte jiný soubor a zkuste to znovu.");
                     m.addAttribute("inspection", inspection);
                     m.addAttribute("fluidLevels", fluidLevels);
                     return "inspections-create";
