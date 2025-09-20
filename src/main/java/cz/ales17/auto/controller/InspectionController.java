@@ -21,7 +21,6 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Controller
-@RequiredArgsConstructor
 public class InspectionController {
 
     private final StorageService storageService;
@@ -32,6 +31,11 @@ public class InspectionController {
 
     private final List<FluidLevel> fluidLevels = List.of(FluidLevel.OK, FluidLevel.LOW, FluidLevel.EMPTY, FluidLevel.OVERFILLED);
 
+    public InspectionController(StorageService storageService, CarService carService, VehicleInspectionService inspService) {
+        this.storageService = storageService;
+        this.carService = carService;
+        this.inspService = inspService;
+    }
 
     @PreAuthorize("@authorizationService.isCarOwner(#vehicleId)")
     @GetMapping("/inspections/new")
