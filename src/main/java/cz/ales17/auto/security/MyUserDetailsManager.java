@@ -38,14 +38,12 @@ public class MyUserDetailsManager implements UserDetailsManager {
     }
 
     public UserDetailsDto getAuthenticatedUserDetails() {
-        throw new UnsupportedOperationException();
-
-//        UserEntity user = (UserEntity) getPrincipal();
-//        UserDetailsDto dto = new UserDetailsDto();
-//        dto.setFirstName(user.getFirstName());
-//        dto.setLastName(user.getLastName());
-//        dto.setEmail(user.getEmail());
-//        return dto;
+        UserEntity user = (UserEntity) getPrincipal();
+        UserDetailsDto dto = new UserDetailsDto();
+        dto.setFirstName(user.getFirstName());
+        dto.setLastName(user.getLastName());
+        dto.setEmail(user.getEmail());
+        return dto;
     }
 
     public void updateAuthenticatedUser(UserDetailsDto userDto) {
