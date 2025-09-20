@@ -1,6 +1,7 @@
 package cz.ales17.auto.controller;
 
 import cz.ales17.auto.dto.PasswordChangeDto;
+import cz.ales17.auto.dto.UserDetailsDto;
 import cz.ales17.auto.security.MyUserDetailsManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -16,14 +17,16 @@ public class ProfileController {
 
     @GetMapping("/profile")
     public String profilePage(Model m) {
-        m.addAttribute("userDto", userDetailsManager.getAuthenticatedUserDetails());
+        UserDetailsDto dto = userDetailsManager.getAuthenticatedUserDetails();
+        m.addAttribute("userDto", dto);
         return "profile-detail";
     }
 
-    @PostMapping("/profile/edit")
-    public String editProfile(Model m)
-    {   //TODO
-        return "profile-edit";
+    @PostMapping("/profile/save")
+    public String editProfile(Model m, @ModelAttribute("userDto") UserDetailsDto dto)
+    {   //TODO validation
+        userDetailsManager.updateAuthenticatedUser(dto);
+        return "redirect:/profile";
     }
     @GetMapping("/profile/password")
     public String changePasswordPage(Model m) {

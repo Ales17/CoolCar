@@ -10,7 +10,7 @@
         <label for="username" class="form-label">Uživatelské jméno</label>
         <input class="form-control" type="text" id="username" th:value="${#authentication.name}" disabled>
     </div>
-    <form method="post" th:object="${userDto}">
+    <form method="post" th:action="@{/profile/save}" th:object="${userDto}">
         <div class="form-group mb-3">
             <label class="form-label">Jméno</label>
             <input class="form-control" type="text" th:field="*{firstName}" >
