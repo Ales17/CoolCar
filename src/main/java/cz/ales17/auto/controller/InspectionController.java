@@ -58,7 +58,7 @@ public class InspectionController {
                                  Model m,
                                  @ModelAttribute("inspection") VehicleInspectionDto inspection,
                                  @RequestParam("photo") MultipartFile file) {
-        if (!file.isEmpty() && !file.getName().isEmpty()) {
+            if (!file.isEmpty() && !file.getName().isEmpty() && !"application/octet-stream".equals(file.getContentType())) {
                 try {
                     String uploadedFilename = storageService.store(file);
                     inspection.setPhotoUrl(String.format("%s%s", FileUtil.ROOT_LOCATION, uploadedFilename));
