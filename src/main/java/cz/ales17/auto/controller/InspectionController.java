@@ -68,6 +68,7 @@ public class InspectionController {
                     m.addAttribute("message", "Vyberte jiný soubor a zkuste to znovu.");
                     m.addAttribute("inspection", inspection);
                     m.addAttribute("fluidLevels", fluidLevels);
+                    m.addAttribute("vehicleId", vehicleId);
                     return "inspections-create";
                 }
             }
