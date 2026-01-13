@@ -17,7 +17,7 @@ import java.util.Set;
 @AllArgsConstructor
 @Setter
 @Getter
-@Table(name = "user")
+@Table(name = "user_entity")
 public class UserEntity extends AbstractEntity implements UserDetails {
     @Column(nullable = false, unique = true)
     private String username;
