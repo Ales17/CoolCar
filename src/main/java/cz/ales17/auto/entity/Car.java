@@ -20,7 +20,7 @@ public class Car extends AbstractEntity {
     private String label;
 
     private String note;
-
+    @Column(name="production_year")
     private Short year;
     @ManyToOne
     @JoinColumn(name = "brand_id")
