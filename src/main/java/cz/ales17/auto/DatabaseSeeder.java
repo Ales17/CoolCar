@@ -1,91 +1,49 @@
 package cz.ales17.auto;
 
-import cz.ales17.auto.entity.*;
-import cz.ales17.auto.repository.*;
-import lombok.RequiredArgsConstructor;
+import cz.ales17.auto.entity.Brand;
+import cz.ales17.auto.entity.Car;
+import cz.ales17.auto.entity.UserEntity;
+import cz.ales17.auto.repository.BrandRepository;
+import cz.ales17.auto.repository.CarRepository;
+import cz.ales17.auto.repository.RoleRepository;
+import cz.ales17.auto.repository.UserRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
-import java.util.Set;
+import cz.ales17.auto.entity.Role;
 
 @Configuration
-@RequiredArgsConstructor
 @Profile("dev")
 public class DatabaseSeeder {
 
-    private final UserRepository userRepository;
-
-    private final RoleRepository roleRepository;
-
-    private final BrandRepository brandRepository;
-
-    private final PasswordEncoder passwordEncoder;
-
-    private final CarRepository carRepository;
-
-    private final VehicleInspectionRepository vehicleInspectionRepository;
-
-    @Transactional
     @Bean
-    CommandLineRunner commandLineRunner() {
+    CommandLineRunner seedData(UserRepository userRepo, RoleRepository roleRepo, CarRepository carRepo, BrandRepository brandRepo) {
         return args -> {
-            Role role = new Role((byte) 1, "USER", null);
-            Role savedRole = roleRepository.save(role);
+            Role adminRole = roleRepo.findRoleByName("ADMIN");
+            if (adminRole == null) {
+                adminRole = roleRepo.save(new Role((byte) 1, "ADMIN"));
+            }
 
             UserEntity user = new UserEntity();
-            user.setUsername("user");
-            user.setFirstName("Jan");
-            user.setLastName("Novak");
-            user.setPassword(passwordEncoder.encode("user"));
-            user.setRoles(Set.of(savedRole));
-            userRepository.save(user);
-            Brand brandEntity = new Brand("Skoda");
-            brandRepository.save(brandEntity);
+            user.setUsername("admin");
+            user.setPassword("$2a$12$R3nK4o.XaJBrKYFIAC2nWefb2Ti6ZF4/paTWnl4nGBJLeC2uW4Fpu"); // pass
+            user.getRoles().add(adminRole);
 
+            user = userRepo.save(user);
 
-            Car car = Car.builder()
-                    .brand(brandEntity)
-                    .label("Moje škodovka")
-                    .year((short) 2020)
-                    .numberPlate("8H80000")
-                    .ownedBy(user)
-                    .photoUrl("https://picsum.photos/800/600")
-                    .vinCode("TMBJB16Y823306852")
-                    .build();
+            Brand skoda = new Brand("Skoda");
+            brandRepo.save(skoda);
 
-            Car car2 = Car.builder()
-                    .brand(brandEntity)
-                    .label("Moje škodovka")
-                    .year((short) 2020)
-                    .numberPlate("7L50000")
-                    .ownedBy(user)
-                    .photoUrl("https://picsum.photos/800/600")
-                    .vinCode("HOVIB16Y823306852") // non-sense VIN for purpose
-                    .build();
-            carRepository.save(car);
-            carRepository.save(car2);
+            Car car = new Car();
+            car.setNumberPlate("1H10000");
+            car.setOwnedBy(user);
+            car.setBrand(skoda);
+            car.setVinCode("TMBJBXXXXXX");
+            car.setYear((short) 2020);
 
-            LocalDate startDate = LocalDate.now().minusYears(1);
-            FluidLevel level = FluidLevel.OK;
-            boolean coolantRefilled = false;
-            String photoUrl = "https://picsum.photos/800/600";
-            for(int i = 0; i < 15; i++) {
-
-                VehicleInspection inspection = VehicleInspection.builder()
-                        .inspectionDate(startDate.plusWeeks(i))
-                        .coolantLevel(level)
-                        .coolantRefilled(coolantRefilled)
-                        .vehicle(car)
-                        .photoUrl(photoUrl+"?random="+i)
-                        .build();
-
-                vehicleInspectionRepository.save(inspection);
-            }
+            carRepo.save(car);
 
         };
     }
