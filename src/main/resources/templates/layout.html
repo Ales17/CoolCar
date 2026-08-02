@@ -44,7 +44,13 @@
 
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" th:href="@{/logout}" hx-boost="false">Odhlásit se</a></li>
+                        <li>  <form th:action="@{/logout}" method="post" class="m-0">
+                            <button type="submit"
+                                    class="dropdown-item border-0 bg-transparent">
+                                Odhlásit se
+                            </button>
+                        </form>
+                        </li>
                         <li><a class="dropdown-item" th:href="@{/profile}">Můj profil</a></li>
 <!--                        <li><hr class="dropdown-divider"></li>-->
 <!--                        <li><a class="dropdown-item" href="#">Something else here</a></li>-->
