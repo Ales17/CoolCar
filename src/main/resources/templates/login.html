@@ -6,27 +6,56 @@
 </head>
 <body>
 <section layout:fragment="content">
-        <form th:action="@{/login}" method="POST" class="">
-            <div class="mb-3">
-                <label for="username" class="form-label">Přihlašovací jméno</label>
-                <input type="text" name="username" id="username" class="form-control" autocomplete="username" autofocus required>
-            </div>
-            <div class="mb-3">
-                <label for="password" class="form-label">Heslo</label>
-                <input type="password" name="password" id="password" class="form-control"
-                       autocomplete="current-password"
-                       required>
-            </div>
-            <div class="mb-3 form-check">
-                <input class="form-check-input" type="checkbox" name="remember-me" checked id="remember-me">
-                <label class="form-check-label" for="remember-me">
-                    Přihlásit trvale?
-                </label>
-            </div>
-            <div class="d-grid">
-                <button type="submit" class="btn btn-success">Přihlásit se</button>
-            </div>
-        </form>
- </section>
+
+    <!-- Optional: success message after logout. Layout only handles ?error, not ?logout. -->
+    <div th:if="${param.logout}" class="alert alert-success py-2 small" role="alert">
+        Byli jste úspěšně odhlášeni.
+    </div>
+
+    <form th:action="@{/login}" method="POST">
+        <div class="form-floating mb-3">
+            <input type="text" name="username" id="username" class="form-control"
+                   placeholder="Přihlašovací jméno" autocomplete="username" autofocus required>
+            <label for="username">Přihlašovací jméno</label>
+        </div>
+
+        <div class="form-floating mb-3">
+            <input type="password" name="password" id="password" class="form-control"
+                   placeholder="Heslo" autocomplete="current-password" required>
+            <label for="password">Heslo</label>
+        </div>
+
+        <div class="form-check form-switch mb-4">
+            <input class="form-check-input" type="checkbox" role="switch"
+                   name="remember-me" id="remember-me" checked>
+            <label class="form-check-label small text-muted" for="remember-me">
+                Přihlásit trvale?
+            </label>
+        </div>
+
+        <div class="d-grid">
+            <button type="submit" class="btn btn-primary py-2 rounded-3">Přihlásit se</button>
+        </div>
+    </form>
+
+    <div class="d-flex align-items-center my-4">
+        <hr class="flex-grow-1">
+        <span class="px-3 text-muted small">nebo</span>
+        <hr class="flex-grow-1">
+    </div>
+
+    <div class="d-grid">
+        <a th:href="@{/oauth2/authorization/tinyauth}"
+           class="btn btn-outline-primary py-2 rounded-3 d-flex align-items-center justify-content-center gap-2">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <circle cx="6" cy="6" r="3.5" stroke="currentColor" stroke-width="1.4"/>
+                <path d="M8.5 8.5L14 14M14 14V10.5M14 14H10.5" stroke="currentColor" stroke-width="1.4"
+                      stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Pokračovat přes Tinyauth
+        </a>
+    </div>
+
+</section>
 </body>
 </html>
